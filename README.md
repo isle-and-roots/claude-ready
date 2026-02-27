@@ -1,34 +1,40 @@
 # claude-ready
 
-> Secure Claude Code Onboarding Kit — from zero to building with AI, safely.
+[![npm](https://img.shields.io/npm/v/claude-ready)](https://www.npmjs.com/package/claude-ready)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Windows%20%7C%20Linux-blue)]()
 
-**claude-ready** gets you from zero to building with [Claude Code](https://docs.anthropic.com/en/docs/claude-code) in under 3 minutes. No experience required.
+**Get Claude Code running in 3 minutes. Zero config. Secure by default.**
+
+> 🇯🇵 日本語版: [README_JA.md](README_JA.md)
 
 ---
 
-## Install
+## What is this?
 
-### Option 1: Desktop App (Recommended)
+**[Claude Code](https://docs.anthropic.com/en/docs/claude-code)** is an AI coding assistant by Anthropic that works directly in your terminal. Setting it up securely — API keys, deny rules, project structure — takes know-how and time.
 
-A native GUI with visual progress bar, guided setup, and mouse-friendly interface.
+**claude-ready** automates all of that. Answer 3 questions, and you're building with AI in minutes. No terminal expertise needed.
 
-**macOS (Apple Silicon)**:
+---
+
+## Quick Install
+
+### macOS — Desktop App (Recommended)
+
+No terminal knowledge required. Visual progress bar, guided setup, mouse-friendly.
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/isle-and-roots/claude-ready/main/install.sh | bash
 ```
 
-> **手動インストールの場合**: [Releases](https://github.com/isle-and-roots/claude-ready/releases/latest) から
-> `.dmg` をダウンロード後、以下を実行してから開いてください:
+> **Manual install**: Download the `.dmg` from [Releases](https://github.com/isle-and-roots/claude-ready/releases/latest), then run:
 > ```bash
 > xattr -dr com.apple.quarantine ~/Downloads/"Claude.Ready_0.1.0_aarch64.dmg"
 > ```
+> Windows (.exe) and Linux (.AppImage) also available.
 
-> Windows (.exe) and Linux (.AppImage) also available on the Releases page.
-
-### Option 2: CLI
-
-For terminal users and automation:
+### CLI — All Platforms
 
 ```bash
 npx claude-ready
@@ -36,63 +42,34 @@ npx claude-ready
 
 ---
 
-## Desktop App Features
+## How It Works
 
-| Feature | Desktop | CLI |
-|---------|---------|-----|
-| Visual progress bar | ✓ | — |
-| Mouse-friendly guided setup | ✓ | — |
-| Step-by-step explanations | ✓ | — |
-| No terminal required | ✓ | — |
-| Scriptable / CI-friendly | — | ✓ |
-| Works offline | ✓ | ✓ |
-
----
-
-## Trust & Transparency
-
-**We believe you should know exactly what runs on your machine.**
-
-### What claude-ready writes
-
-| File | Purpose |
-|------|---------|
-| `.claude/settings.json` | Security deny rules + hooks configuration |
-| `.env` | API key storage (mode `0o600`, owner-only read/write) |
-| `CLAUDE.md` | Project-specific Claude Code instructions |
-| `.gitignore` | Updated to exclude `.env` and secrets |
-
-### What claude-ready does NOT do
-
-- No telemetry or analytics
-- No data sent to external servers (except `claude login` which is Anthropic's own CLI)
-- No background processes
-- No modifications outside the project directory
-
-### Verify before running
-
-```bash
-npx claude-ready --dry-run
+```
+1. Answer 3 questions     →   experience level · auth method · project type
+2. claude-ready runs      →   writes config, applies 15 deny rules, sets up hooks
+3. Start building         →   open your project folder and run `claude`
 ```
 
-Preview the entire setup flow without writing any files.
+That's it.
 
 ---
 
 ## Features
 
-| Feature | Description |
-|---------|-------------|
-| **Zero-Decision Setup** | Only 3 choices: experience level, auth method, project type |
-| **Built-in Security** | 15 deny rules auto-applied to every project |
-| **Hooks Presets** | Auto-format, safe-commit, dangerous command blocking, and more |
-| **FinanceOps** | Budget tracking and cost estimation (`--cost`) |
-| **i18n** | English + Japanese auto-detected |
-| **Community** | Discord, meetups, share cards (`--share`) |
+- 🚀 **Zero-Decision Setup** — Only 3 questions. Done in 3 minutes.
+- 🔒 **Secure by Default** — 15 deny rules auto-applied to every project
+- 🖥️ **Desktop App** — No terminal required (macOS, Windows, Linux)
+- 🤖 **CLI** — `npx claude-ready` for power users and automation
+- 🌏 **English + Japanese** — Language auto-detected from your system
+- 🎣 **Hooks Presets** — Auto-format, safe-commit, and more
+- 📊 **Budget Tracking** — Cost estimation with `--cost`
+- 🎴 **Share Cards** — Share your setup with the community (`--share`)
+
+---
 
 ## Security
 
-Every setup includes these deny rules in `.claude/settings.json`:
+Every setup writes these deny rules into `.claude/settings.json`:
 
 | Type | Rules |
 |------|-------|
@@ -100,9 +77,43 @@ Every setup includes these deny rules in `.claude/settings.json`:
 | **Write** | `.env`, `.env.*`, `.env.local`, `*.pem`, `**/*credential*`, `.ssh/*` |
 | **Bash** | `rm -rf /`, `rm -rf ~`, `sudo *`, `curl * | bash` |
 
+Claude cannot read your secrets, write to sensitive files, or run destructive shell commands.
+
+See [docs/TRUST.md](docs/TRUST.md) for the full transparency report.
+
+---
+
+## For Beginners
+
+Never used a terminal before? No problem.
+
+1. **macOS**: Run the `curl` command above in Terminal (search "Terminal" in Spotlight)
+2. The **Desktop App** opens with a step-by-step visual wizard
+3. Follow the on-screen prompts — no typing commands required
+
+> **What is Claude Code?**
+> Think of it as an AI assistant that lives inside your code editor. You describe what you want to build, and it writes the code. claude-ready makes sure it's set up safely from the start.
+
+---
+
+## For Developers
+
+### CLI Options
+
+```bash
+npx claude-ready              # Interactive setup
+npx claude-ready --dry-run    # Preview without writing any files
+npx claude-ready --lang ja    # Force Japanese
+npx claude-ready --lang en    # Force English
+npx claude-ready --share      # Generate share text
+npx claude-ready --cost       # Show cost estimator
+npx claude-ready --learn      # Show learning journey
+npx claude-ready --events     # Show upcoming events
+```
+
 ### Hooks Presets
 
-Optional automation hooks for `.claude/settings.json`:
+Optional automation hooks applied to `.claude/settings.json`:
 
 | Hook | What it does |
 |------|-------------|
@@ -112,37 +123,22 @@ Optional automation hooks for `.claude/settings.json`:
 | `cost-tracker` | Logs token usage to `usage.log` |
 | `notification` | Desktop notifications on task completion |
 
-## For Everyone
+### Project Structure
 
-| Level | Experience | What happens |
-|-------|-----------|--------------|
-| Beginner | Never used a terminal | Full guided mode with terminal tips and detailed explanations |
-| Intermediate | Code sometimes | Standard mode with helpful context |
-| Advanced | Developer | Express mode, minimal prompts |
-
-## Project Templates
-
-| Choice | What you get |
-|--------|-------------|
-| A simple website | HTML + CSS + JS starter |
-| A web application | React + Vite scaffold |
-| A command-line tool | Node.js CLI starter |
-| Just set up Claude Code | Configuration only, no project files |
-
-## CLI Options
-
-```bash
-npx claude-ready              # Interactive setup
-npx claude-ready --dry-run    # Preview without writing files
-npx claude-ready --lang ja    # Force Japanese
-npx claude-ready --lang en    # Force English
-npx claude-ready --share      # Generate share text
-npx claude-ready --cost       # Show cost estimator
-npx claude-ready --learn      # Show learning journey
-npx claude-ready --events     # Show upcoming events
+```
+claude-ready/
+├── packages/
+│   ├── cli/          # Main CLI (npx claude-ready)
+│   ├── gui/          # Desktop App (Tauri v2 + React)
+│   ├── shared/       # Shared logic (security, hooks, i18n)
+│   └── skill/        # Skill integrations
+├── docs/
+│   ├── guide-ja.md   # Japanese setup guide
+│   └── TRUST.md      # Full transparency document
+└── templates/        # Project starter templates
 ```
 
-## Development
+### Local Development
 
 ```bash
 git clone https://github.com/isle-and-roots/claude-ready.git
@@ -153,28 +149,32 @@ pnpm test
 pnpm dev
 ```
 
-## Project Structure
+---
 
-```
-claude-ready/
-├── packages/
-│   ├── cli/          # Main CLI (npx claude-ready)
-│   ├── gui/          # Desktop App (Tauri v2 + React)
-│   ├── shared/       # Shared logic (security, hooks, i18n)
-│   └── website/      # Landing page (Astro)
-├── docs/
-│   └── TRUST.md      # Full transparency document
-├── turbo.json        # Turborepo config
-└── package.json      # Root workspace
-```
+## Documentation
+
+- [Japanese Setup Guide](docs/guide-ja.md) — 日本語セットアップガイド
+- [TRUST.md](docs/TRUST.md) — What gets written to your machine, and why
+
+---
+
+## Community
+
+- **Claude Code Meetup Japan #3** — 2026/03/12 ([Details](https://github.com/isle-and-roots/claude-ready))
+- Questions, feedback, and show-and-tell: open an [Issue](https://github.com/isle-and-roots/claude-ready/issues)
+
+---
 
 ## Contributing
 
-Contributions welcome! Please:
+Contributions welcome!
+
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing`)
 3. Commit your changes
 4. Push and open a Pull Request
+
+---
 
 ## License
 
