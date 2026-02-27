@@ -148,6 +148,36 @@ npx claude-ready
 
 # 3. インストール・実行方法
 
+## デスクトップアプリ（推奨）
+
+ビジュアルなプログレスバーとマウス操作に対応した、最も簡単な方法です。
+
+1. [GitHub Releases](https://github.com/isle-and-roots/claude-ready/releases/latest) から `.dmg` をダウンロード
+2. `.dmg` を開き、`Claude Ready.app` を `/Applications` にドラッグ
+3. アプリを起動
+
+### macOS Gatekeeper について
+
+Apple Developer ID による署名がないため、初回起動時に警告が表示される場合があります。
+
+**方法 1: 右クリックで開く（推奨）**
+
+1. Finder で `Claude Ready.app` を**右クリック**
+2. 「開く」を選択
+3. 確認ダイアログで再度「開く」をクリック
+
+**方法 2: xattr コマンドで隔離フラグを解除**
+
+```bash
+xattr -cr "/Applications/Claude Ready.app"
+```
+
+実行後、通常のダブルクリックで起動できます。
+
+---
+
+## CLI
+
 claude-ready のインストールは不要です。`npx` で直接実行できます:
 
 ```bash
@@ -436,6 +466,23 @@ claude-ready が生成・変更するファイルの一覧です:
 ---
 
 # 7. FAQ / トラブルシューティング
+
+## Q: macOS で「"Claude Ready" は壊れているため開けません」と表示される
+
+**A**: macOS Gatekeeper によるブロックです。以下のいずれかの方法で解決できます。
+
+**方法 1: xattr で隔離フラグを解除する（最も確実）**
+
+```bash
+xattr -cr "/Applications/Claude Ready.app"
+```
+
+**方法 2: 右クリック→「開く」**
+
+1. Finder で `Claude Ready.app` を右クリック
+2. 「開く」を選択 → 確認ダイアログで「開く」
+
+**原因**: Apple Developer ID による署名がないアプリを初回起動する際に発生します。上記の手順を一度実行すれば、以降は通常通り起動できます。
 
 ## Q: Node.js がインストールされていません
 

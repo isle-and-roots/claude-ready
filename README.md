@@ -16,6 +16,12 @@ A native GUI with visual progress bar, guided setup, and mouse-friendly interfac
 
 > Windows (.exe) and Linux (.AppImage) also available on the Releases page.
 
+> **macOS の初回起動**: 「開発元を確認できません」と表示された場合は
+> 右クリック →「開く」を選択してください。または:
+> ```bash
+> xattr -cr "/Applications/Claude Ready.app"
+> ```
+
 ### Option 2: CLI
 
 For terminal users and automation:
