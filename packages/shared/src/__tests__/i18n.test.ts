@@ -130,6 +130,62 @@ describe('share messages', () => {
   });
 });
 
+describe('auth messages', () => {
+  it('en has all auth keys', () => {
+    const msgs = loadMessages('en');
+    expect(msgs.auth).toBeDefined();
+    expect(msgs.auth.methodQuestion).toBeTruthy();
+    expect(msgs.auth.subscription).toBeTruthy();
+    expect(msgs.auth.subscriptionDesc).toBeTruthy();
+    expect(msgs.auth.apiKey).toBeTruthy();
+    expect(msgs.auth.apiKeyDesc).toBeTruthy();
+    expect(msgs.auth.teams).toBeTruthy();
+    expect(msgs.auth.teamsDesc).toBeTruthy();
+    expect(msgs.auth.cloudProvider).toBeTruthy();
+    expect(msgs.auth.cloudProviderDesc).toBeTruthy();
+    expect(msgs.auth.loginRunning).toBeTruthy();
+    expect(msgs.auth.loginSuccess).toBeTruthy();
+    expect(msgs.auth.loginFailed).toBeTruthy();
+    expect(msgs.auth.apiKeyConflict).toBeTruthy();
+    expect(msgs.auth.removeApiKey).toBeTruthy();
+    expect(msgs.auth.teamsInviteGuide).toBeTruthy();
+    expect(msgs.auth.cloudProviderSelect).toBeTruthy();
+    expect(msgs.auth.cloudProviderEnvGuide).toBeTruthy();
+    expect(Array.isArray(msgs.auth.beginnerAuthGuide)).toBe(true);
+    expect(msgs.auth.beginnerAuthGuide.length).toBeGreaterThan(0);
+  });
+
+  it('ja has all auth keys', () => {
+    const msgs = loadMessages('ja');
+    expect(msgs.auth).toBeDefined();
+    expect(msgs.auth.methodQuestion).toBeTruthy();
+    expect(msgs.auth.subscription).toBeTruthy();
+    expect(msgs.auth.apiKey).toBeTruthy();
+    expect(msgs.auth.teams).toBeTruthy();
+    expect(msgs.auth.cloudProvider).toBeTruthy();
+    expect(msgs.auth.loginRunning).toBeTruthy();
+    expect(msgs.auth.loginSuccess).toBeTruthy();
+    expect(msgs.auth.loginFailed).toBeTruthy();
+    expect(Array.isArray(msgs.auth.beginnerAuthGuide)).toBe(true);
+    expect(msgs.auth.beginnerAuthGuide.length).toBeGreaterThan(0);
+  });
+
+  it('ja auth.methodQuestion is in Japanese', () => {
+    const msgs = loadMessages('ja');
+    expect(msgs.auth.methodQuestion).toContain('認証方法');
+  });
+
+  it('ja auth.loginSuccess is in Japanese', () => {
+    const msgs = loadMessages('ja');
+    expect(msgs.auth.loginSuccess).toContain('成功');
+  });
+
+  it('ja auth.beginnerAuthGuide has Japanese content', () => {
+    const msgs = loadMessages('ja');
+    expect(msgs.auth.beginnerAuthGuide[0]).toMatch(/[\u3040-\u30ff\u4e00-\u9fff]/);
+  });
+});
+
 describe('all sections present in both locales', () => {
   const sections = [
     'welcome', 'envCheck', 'install', 'apiKey', 'project',

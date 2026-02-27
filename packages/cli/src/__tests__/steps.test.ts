@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 // Mock @clack/prompts
 vi.mock('@clack/prompts', () => ({
@@ -12,6 +12,19 @@ vi.mock('@clack/prompts', () => ({
   outro: vi.fn(),
   cancel: vi.fn(),
   isCancel: vi.fn(() => false),
+}));
+
+// Mock child_process
+vi.mock('child_process', () => ({
+  execSync: vi.fn(),
+}));
+
+// Mock fs
+vi.mock('fs', () => ({
+  writeFileSync: vi.fn(),
+  readFileSync: vi.fn(() => ''),
+  existsSync: vi.fn(() => false),
+  appendFileSync: vi.fn(),
 }));
 
 import * as p from '@clack/prompts';
@@ -116,12 +129,141 @@ describe('installStep error path', () => {
 
 describe('apiKeyStep error path', () => {
   it('validates API key minimum length', async () => {
-    const { apiKeyStep } = await import('../steps/api-key.js');
-    // Mock text to return a short key
+    const { authStep } = await import('../steps/auth.js');
+    // Mock select to choose apiKey method, then mock text to return a short key
+    vi.mocked(p.select).mockResolvedValue('apiKey');
     vi.mocked(p.text).mockResolvedValue('sk-ant-short');
     vi.mocked(p.isCancel).mockReturnValue(true);
     // The step should throw UserCancelledError since we cancel after validation
-    await expect(apiKeyStep(msgs, '/tmp/test-dir')).rejects.toThrow();
+    await expect(authStep(msgs, '/tmp/test-dir')).rejects.toThrow();
     vi.mocked(p.isCancel).mockReturnValue(false);
+  });
+});
+
+describe('authStep', () => {
+  let originalApiKey: string | undefined;
+
+  beforeEach(async () => {
+    vi.clearAllMocks();
+    vi.resetAllMocks();
+    // Re-apply default mocks
+    vi.mocked(p.isCancel).mockReturnValue(false);
+    const { execSync } = await import('child_process');
+    vi.mocked(execSync).mockReturnValue(Buffer.from(''));
+    const { existsSync, readFileSync } = await import('fs');
+    vi.mocked(existsSync).mockReturnValue(false);
+    vi.mocked(readFileSync).mockReturnValue('');
+    originalApiKey = process.env.ANTHROPIC_API_KEY;
+    delete process.env.ANTHROPIC_API_KEY;
+  });
+
+  afterEach(() => {
+    if (originalApiKey !== undefined) {
+      process.env.ANTHROPIC_API_KEY = originalApiKey;
+    } else {
+      delete process.env.ANTHROPIC_API_KEY;
+    }
+  });
+
+  it('skips and shows already-configured message when ANTHROPIC_API_KEY is set (advanced)', async () => {
+    process.env.ANTHROPIC_API_KEY = 'sk-ant-existing';
+    const { authStep } = await import('../steps/auth.js');
+    await authStep(msgs, '/tmp/test', 'advanced');
+    expect(p.log.success).toHaveBeenCalledWith(msgs.apiKey.expressAlreadySet);
+    expect(p.select).not.toHaveBeenCalled();
+  });
+
+  it('skips and shows already-configured message when ANTHROPIC_API_KEY is set (non-advanced)', async () => {
+    process.env.ANTHROPIC_API_KEY = 'sk-ant-existing';
+    const { authStep } = await import('../steps/auth.js');
+    await authStep(msgs, '/tmp/test', 'beginner');
+    expect(p.log.success).toHaveBeenCalled();
+    expect(p.select).not.toHaveBeenCalled();
+  });
+
+  it('subscription: calls execSync claude login on success', async () => {
+    const { execSync } = await import('child_process');
+    vi.mocked(p.select).mockResolvedValue('subscription');
+    const { authStep } = await import('../steps/auth.js');
+    await authStep(msgs, '/tmp/test-sub');
+    expect(execSync).toHaveBeenCalledWith('claude login', expect.objectContaining({ stdio: 'inherit' }));
+    expect(p.log.success).toHaveBeenCalled();
+  });
+
+  it('subscription: throws FatalError when claude login fails', async () => {
+    const { execSync } = await import('child_process');
+    vi.mocked(p.select).mockResolvedValue('subscription');
+    vi.mocked(execSync).mockImplementation(() => { throw new Error('login failed'); });
+    const { authStep } = await import('../steps/auth.js');
+    await expect(authStep(msgs, '/tmp/test-sub')).rejects.toThrow();
+  });
+
+  it('apiKey: saves key to .env on valid input', async () => {
+    const { writeFileSync } = await import('fs');
+    vi.mocked(p.select).mockResolvedValue('apiKey');
+    vi.mocked(p.text).mockResolvedValue('sk-ant-api03-validkeyabcdef12345');
+    const { authStep } = await import('../steps/auth.js');
+    await authStep(msgs, '/tmp/test-apikey');
+    expect(writeFileSync).toHaveBeenCalled();
+    expect(p.log.success).toHaveBeenCalled();
+  });
+
+  it('apiKey: throws UserCancelledError when user cancels text prompt', async () => {
+    vi.mocked(p.select).mockResolvedValue('apiKey');
+    vi.mocked(p.text).mockResolvedValue(Symbol.for('cancel') as unknown as string);
+    vi.mocked(p.isCancel).mockReturnValue(true);
+    const { authStep } = await import('../steps/auth.js');
+    await expect(authStep(msgs, '/tmp/test-cancel')).rejects.toThrow();
+    vi.mocked(p.isCancel).mockReturnValue(false);
+  });
+
+  it('teams: calls execSync claude login', async () => {
+    const { execSync } = await import('child_process');
+    vi.mocked(p.select).mockResolvedValue('teams');
+    const { authStep } = await import('../steps/auth.js');
+    await authStep(msgs, '/tmp/test-teams');
+    expect(execSync).toHaveBeenCalledWith('claude login', expect.objectContaining({ stdio: 'inherit' }));
+  });
+
+  it('cloudProvider: shows env vars for Bedrock selection', async () => {
+    vi.mocked(p.select)
+      .mockResolvedValueOnce('cloudProvider')
+      .mockResolvedValueOnce('bedrock');
+    const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+    const { authStep } = await import('../steps/auth.js');
+    await authStep(msgs, '/tmp/test-cloud');
+    expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('CLAUDE_CODE_USE_BEDROCK=1'));
+    consoleSpy.mockRestore();
+  });
+
+  it('cloudProvider: shows env vars for Vertex AI selection', async () => {
+    vi.mocked(p.select)
+      .mockResolvedValueOnce('cloudProvider')
+      .mockResolvedValueOnce('vertex');
+    const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+    const { authStep } = await import('../steps/auth.js');
+    await authStep(msgs, '/tmp/test-vertex');
+    expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('CLAUDE_CODE_USE_VERTEX=1'));
+    consoleSpy.mockRestore();
+  });
+
+  it('throws UserCancelledError when method selection is cancelled', async () => {
+    vi.mocked(p.select).mockResolvedValue(Symbol.for('cancel') as unknown as string);
+    vi.mocked(p.isCancel).mockReturnValue(true);
+    const { authStep } = await import('../steps/auth.js');
+    await expect(authStep(msgs, '/tmp/test-cancel-method')).rejects.toThrow();
+    vi.mocked(p.isCancel).mockReturnValue(false);
+  });
+
+  it('subscription: warns and prompts to remove existing API key conflict', async () => {
+    const { existsSync, readFileSync } = await import('fs');
+    vi.mocked(existsSync).mockReturnValue(true);
+    vi.mocked(readFileSync).mockReturnValue('ANTHROPIC_API_KEY=sk-ant-existing\n');
+    vi.mocked(p.select).mockResolvedValue('subscription');
+    vi.mocked(p.confirm).mockResolvedValue(false);
+    const { authStep } = await import('../steps/auth.js');
+    await authStep(msgs, '/tmp/test-conflict');
+    expect(p.log.warn).toHaveBeenCalledWith(msgs.auth.apiKeyConflict);
+    expect(p.confirm).toHaveBeenCalled();
   });
 });

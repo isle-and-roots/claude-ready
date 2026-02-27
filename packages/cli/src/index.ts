@@ -3,7 +3,7 @@ import { detectLocale, loadMessages, type Locale } from "@claude-ready/shared";
 import { welcomeStep } from "./steps/welcome.js";
 import { envCheckStep } from "./steps/env-check.js";
 import { installStep } from "./steps/install.js";
-import { apiKeyStep } from "./steps/api-key.js";
+import { authStep } from "./steps/auth.js";
 import { securityStep } from "./steps/security.js";
 import { projectStep } from "./steps/project.js";
 import { communityStep } from "./steps/community.js";
@@ -121,7 +121,7 @@ Options:
   // Phase 4: API key (skipped in dry-run)
   const projectDir = process.cwd();
   if (!isDryRun) {
-    await apiKeyStep(msgs, projectDir, level);
+    await authStep(msgs, projectDir, level);
   } else {
     p.log.info(msgs.dryRun.skipApiKey);
   }

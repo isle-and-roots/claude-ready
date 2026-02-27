@@ -89,6 +89,26 @@ export interface I18nMessages {
     apiKeyFormatError: string;
     pathTraversalError: string;
   };
+  auth: {
+    methodQuestion: string;
+    subscription: string;
+    subscriptionDesc: string;
+    apiKey: string;
+    apiKeyDesc: string;
+    teams: string;
+    teamsDesc: string;
+    cloudProvider: string;
+    cloudProviderDesc: string;
+    loginRunning: string;
+    loginSuccess: string;
+    loginFailed: string;
+    apiKeyConflict: string;
+    removeApiKey: string;
+    teamsInviteGuide: string;
+    cloudProviderSelect: string;
+    cloudProviderEnvGuide: string;
+    beginnerAuthGuide: string[];
+  };
   events: {
     title: string;
     upcoming: string;
@@ -228,6 +248,31 @@ const en: I18nMessages = {
     apiKeyFormatError: 'Invalid API key format. Your key must start with "sk-ant-" (e.g. sk-ant-api03-...).',
     pathTraversalError: 'Invalid file path detected. Path must not contain ".." or be an absolute path.',
   },
+  auth: {
+    methodQuestion: 'Choose your authentication method',
+    subscription: 'Subscription (Pro / Max)',
+    subscriptionDesc: 'Monthly flat rate. For those with an active claude.com subscription',
+    apiKey: 'API Key (pay-as-you-go)',
+    apiKeyDesc: 'Generate an API key from Anthropic Console and use it directly',
+    teams: 'Teams / Enterprise',
+    teamsDesc: 'For those who have received an invitation from an organization admin',
+    cloudProvider: 'Cloud Provider (Bedrock / Vertex AI)',
+    cloudProviderDesc: 'Use Claude via AWS or Google Cloud',
+    loginRunning: 'Authenticating in browser...',
+    loginSuccess: 'Authentication successful!',
+    loginFailed: 'Authentication failed',
+    apiKeyConflict: 'An API key was detected...',
+    removeApiKey: 'Remove ANTHROPIC_API_KEY from .env?',
+    teamsInviteGuide: 'Please ask your admin to send you an invitation',
+    cloudProviderSelect: 'Select a cloud provider',
+    cloudProviderEnvGuide: 'Please set the following environment variables',
+    beginnerAuthGuide: [
+      'Subscription: Best for individuals who use Claude regularly. Pay a flat monthly fee at claude.com.',
+      'API Key: Best for developers or those who want to control costs precisely. Pay only for what you use.',
+      'Teams / Enterprise: Best for organizations. Managed by an admin.',
+      'Cloud Provider: Best for those already using AWS or Google Cloud infrastructure.',
+    ],
+  },
   events: {
     title: 'Upcoming Events',
     upcoming: 'Next event',
@@ -366,6 +411,31 @@ const ja: I18nMessages = {
     retryGuidance: '手動で再試行できます: npm install -g @anthropic-ai/claude-code',
     apiKeyFormatError: 'APIキーの形式が正しくありません。キーは "sk-ant-" で始まる必要があります（例: sk-ant-api03-...）。',
     pathTraversalError: '無効なファイルパスが検出されました。パスに ".." を含めたり、絶対パスにすることはできません。',
+  },
+  auth: {
+    methodQuestion: '認証方法を選択してください',
+    subscription: 'サブスクリプション (Pro / Max)',
+    subscriptionDesc: '月額定額制。claude.com で契約済みの方',
+    apiKey: 'API キー（従量課金）',
+    apiKeyDesc: 'Anthropic Console で API キーを発行して使用',
+    teams: 'Teams / Enterprise',
+    teamsDesc: '組織の管理者から招待を受けた方',
+    cloudProvider: 'Cloud Provider (Bedrock / Vertex AI)',
+    cloudProviderDesc: 'AWS / Google Cloud 経由で利用',
+    loginRunning: 'ブラウザで認証しています...',
+    loginSuccess: '認証に成功しました！',
+    loginFailed: '認証に失敗しました',
+    apiKeyConflict: 'API キーが検出されました...',
+    removeApiKey: '.env から ANTHROPIC_API_KEY を削除しますか？',
+    teamsInviteGuide: '管理者に招待してもらってください',
+    cloudProviderSelect: 'クラウドプロバイダーを選択',
+    cloudProviderEnvGuide: '以下の環境変数を設定してください',
+    beginnerAuthGuide: [
+      'サブスクリプション: 定期的に Claude を使う個人に最適。claude.com で月額定額を支払います。',
+      'API キー: 開発者やコストを細かく管理したい方に最適。使った分だけ支払います。',
+      'Teams / Enterprise: 組織向け。管理者が管理します。',
+      'クラウドプロバイダー: すでに AWS や Google Cloud を使っている方に最適。',
+    ],
   },
   events: {
     title: '開催予定イベント',

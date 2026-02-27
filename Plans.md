@@ -103,6 +103,160 @@
 
 ---
 
+## Phase 3.5: Multi-Auth Support（認証方法の多様化）
+
+> **背景**: 現在の CLI は API キー（`sk-ant-`）のみ対応。Claude Code は Pro/Max サブスクリプション、Teams/Enterprise、Cloud Provider（Bedrock, Vertex AI, Foundry）にも対応しており、これらを CLI と手順書の両方でカバーする。
+
+### 3.5.1 CLI: 認証ステップのリファクタリング `[feature:security]`
+
+**対象ファイル**: `packages/cli/src/steps/api-key.ts` → `auth.ts` にリネーム
+
+- [ ] **認証方法の選択 UI 追加**
+  - Step 4 を「API キー設定」から「認証設定」に変更
+  - `@clack/prompts` の `select` で以下を表示:
+    1. サブスクリプション（Pro / Max）— `claude login` で認証
+    2. API キー（従量課金）— 現在のフロー
+    3. Teams / Enterprise — 管理者からの招待 + `claude login`
+    4. Cloud Provider（Bedrock / Vertex AI / Foundry）— 環境変数設定ガイド
+  - Beginner モードでは各選択肢に1行の説明を追加
+
+- [ ] **サブスクリプション認証フロー（新規）**
+  - `claude login` の存在確認（`which claude`）→ 未インストール時は Step 3 に戻す
+  - `execSync('claude login')` を実行（ブラウザが自動で開く）
+  - 認証成功後、`.env` に `ANTHROPIC_API_KEY` を書き込まない（サブスクリプション利用のため）
+  - **競合検出**: 既存の `ANTHROPIC_API_KEY` が `.env` にある場合は警告を表示
+    - 「API キーが設定されています。サブスクリプションを使用する場合は `.env` から `ANTHROPIC_API_KEY` を削除してください」
+    - 削除するかどうかを `confirm` で確認
+
+- [ ] **Teams / Enterprise フロー（新規）**
+  - 管理者招待の案内テキスト表示
+  - `claude login` を実行（サブスクリプションと同じブラウザ認証）
+  - 認証後に組織名を確認表示
+
+- [ ] **Cloud Provider フロー（新規）**
+  - Bedrock / Vertex AI / Foundry の選択 UI
+  - 必要な環境変数の一覧表示（設定手順ガイド）
+  - 実際の環境変数設定は手動（ユーザーに委任）
+  - Bedrock: `CLAUDE_CODE_USE_BEDROCK=1`, `AWS_REGION`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`
+  - Vertex AI: `CLAUDE_CODE_USE_VERTEX=1`, `CLOUD_ML_REGION`, `ANTHROPIC_VERTEX_PROJECT_ID`
+  - `.env` への書き込みはユーザー確認後
+
+- [ ] **既存 API キーフローの維持**
+  - 現在の `sk-ant-` バリデーション + `.env` 書き込みはそのまま
+  - リファクタリングしてサブ関数に分離
+
+### 3.5.2 i18n: 認証関連メッセージ追加
+
+**対象ファイル**: `packages/shared/src/i18n.ts`
+
+- [ ] **I18nMessages 型に `auth` セクション追加**
+  ```typescript
+  auth: {
+    methodQuestion: string;        // "認証方法を選択してください"
+    subscription: string;          // "サブスクリプション (Pro / Max)"
+    subscriptionDesc: string;      // "月額定額制。claude.com で契約済みの方"
+    apiKey: string;                // "API キー（従量課金）"
+    apiKeyDesc: string;            // "Anthropic Console で API キーを発行して使用"
+    teams: string;                 // "Teams / Enterprise"
+    teamsDesc: string;             // "組織の管理者から招待を受けた方"
+    cloudProvider: string;         // "Cloud Provider (Bedrock / Vertex AI)"
+    cloudProviderDesc: string;     // "AWS / Google Cloud 経由で利用"
+    loginRunning: string;          // "ブラウザで認証しています..."
+    loginSuccess: string;          // "認証に成功しました！"
+    loginFailed: string;           // "認証に失敗しました"
+    apiKeyConflict: string;        // "API キーが検出されました。サブスクリプション..."
+    removeApiKey: string;          // ".env から ANTHROPIC_API_KEY を削除しますか？"
+    teamsInviteGuide: string;      // "管理者に招待してもらってください"
+    cloudProviderSelect: string;   // "クラウドプロバイダーを選択"
+    cloudProviderEnvGuide: string; // "以下の環境変数を設定してください"
+    beginnerAuthGuide: string[];   // 初心者向け認証方法の比較解説
+  }
+  ```
+- [ ] **EN / JA の翻訳追加**（各20メッセージ程度）
+
+### 3.5.3 手順書の更新
+
+**対象ファイル**: `docs/guide-ja.md`
+
+- [ ] **前提条件セクション更新**
+  - 「Anthropic アカウント」を「認証方法に応じたアカウント」に変更
+  - 認証方法の比較表追加（方法、料金体系、対象者、必要なもの）
+
+- [ ] **Step 4 を全面書き換え**
+  - タイトルを「API キー設定」→「認証設定」に変更
+  - 4 つの認証パスそれぞれの手順を詳述:
+    - **方法 A: サブスクリプション（Pro / Max）**: 料金プラン比較、`claude login` 手順、競合注意
+    - **方法 B: API キー**: 現行の手順（ほぼ変更なし）
+    - **方法 C: Teams / Enterprise**: 管理者招待フロー、Teams vs Enterprise の違い
+    - **方法 D: Cloud Provider**: Bedrock / Vertex AI / Foundry の環境変数一覧
+  - 認証方法の選び方フローチャート（テキスト図）
+
+- [ ] **FAQ セクション追加**
+  - Q: サブスクリプションと API キーの違いは？
+  - Q: サブスクリプションなのに課金されている
+  - Q: Teams アカウントの招待方法
+  - Q: Cloud Provider の認証が通らない
+
+- [ ] **セキュリティ情報セクション追加**
+  - `ANTHROPIC_API_KEY` と サブスクリプション認証の優先順位
+  - Cloud Provider 認証情報の取り扱い注意
+
+### 3.5.4 テスト更新
+
+**対象ファイル**: `packages/cli/src/__tests__/steps.test.ts`, `packages/shared/src/__tests__/i18n.test.ts`
+
+- [ ] **認証選択のユニットテスト追加**
+  - サブスクリプション選択時のフロー
+  - API キー選択時のフロー（既存テスト維持）
+  - API キー競合検出テスト
+  - Cloud Provider 選択時のフロー
+  - キャンセル時の UserCancelledError テスト
+- [ ] **i18n テスト更新**
+  - `auth` セクションの翻訳存在確認（EN/JA）
+
+### 3.5.5 PDF 再生成 + Release 更新
+
+- [ ] `pnpm docs:pdf` で PDF を再生成
+- [ ] `gh release upload v0.1.0 docs/guide-ja.pdf --clobber` で上書き
+
+---
+
+### Phase 3.5 Feature Priority Matrix
+
+| Priority | Feature | Section | Effort |
+|----------|---------|---------|--------|
+| **Required** | 認証方法選択 UI | 3.5.1 | M |
+| **Required** | サブスクリプション認証フロー | 3.5.1 | M |
+| **Required** | 手順書 Step 4 全面書き換え | 3.5.3 | M |
+| **Required** | i18n メッセージ追加 | 3.5.2 | S |
+| **Recommended** | API キー競合検出・警告 | 3.5.1 | S |
+| **Recommended** | Teams / Enterprise フロー | 3.5.1 | S |
+| **Recommended** | FAQ 追加 | 3.5.3 | S |
+| **Optional** | Cloud Provider フロー | 3.5.1 | M |
+| **Optional** | Cloud Provider 環境変数設定ガイド | 3.5.3 | S |
+| **Required** | テスト更新 | 3.5.4 | S |
+| **Required** | PDF 再生成 + Release 更新 | 3.5.5 | S |
+
+**Effort**: S = ~1h, M = 2~4h
+
+### 実行順序
+
+```
+3.5.2 (i18n 型定義・メッセージ)
+  ↓
+3.5.1 (CLI 認証ステップ)
+  ↓
+3.5.4 (テスト)
+  ↓
+3.5.3 (手順書更新)
+  ↓
+3.5.5 (PDF + Release)
+```
+
+i18n を先に定義 → CLI が参照 → テストで検証 → 手順書で説明 → PDF 配布の順。
+
+---
+
 ## Phase 4: GUI + 拡張 (Post-MVP)
 
 ### 4.1 Tauri v2 macOS アプリ

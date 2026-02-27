@@ -130,8 +130,17 @@ npx claude-ready
 |------|------|
 | OS | macOS |
 | Node.js | v18 以上 |
-| Anthropic アカウント | API キー取得のため必要 |
+| 認証情報 | 選択した認証方法に応じたアカウント（下記参照） |
 | インターネット接続 | Claude Code のインストールと API 通信に必要 |
+
+### 認証方法と必要なもの
+
+| 方法 | 料金体系 | 対象者 | 必要なもの |
+|------|----------|--------|-----------|
+| **サブスクリプション** | 月額定額 | 個人開発者 | Claude Pro / Max 契約 |
+| **API キー** | 従量課金 | 個人・チーム | Anthropic Console アカウント |
+| **Teams / Enterprise** | 組織契約 | チーム・企業 | 管理者からの招待 |
+| **Cloud Provider** | クラウド従量 | 企業・既存クラウドユーザー | AWS / GCP アカウント |
 
 > **Node.js 未インストールの場合**: [nodejs.org](https://nodejs.org/) から LTS 版をダウンロードしてインストールしてください。インストール後、ターミナルで `node -v` を実行してバージョンを確認できます。
 
@@ -175,7 +184,7 @@ claude-ready を実行すると、以下の 7 ステップで環境が構築さ�
 │       ↓                                         │
 │  Step 3: Claude Code インストール               │
 │       ↓                                         │
-│  Step 4: API キー設定                           │
+│  Step 4: 認証設定                               │
 │       ↓                                         │
 │  Step 5: セキュリティ設定                       │
 │       ↓                                         │
@@ -227,23 +236,115 @@ npm install -g @anthropic-ai/claude-code
 
 ---
 
-## Step 4: API キー設定
+## Step 4: 認証設定
 
-Anthropic の API キーを設定します。
+Claude Code の認証方法を選択して設定します。4つの方法から状況に合わせて選択できます。
 
-### API キーの取得手順
+### 認証方法の選び方
 
-1. ブラウザが自動的に Anthropic のコンソール画面を開きます
+```
+Claude Code を使い始めたい
+        |
+        +---> 個人で使う?
+        |           |
+        |           +---> 月額定額が良い → [A] サブスクリプション (Pro / Max)
+        |           |
+        |           +---> 使った分だけ払いたい → [B] API キー
+        |
+        +---> 組織・チームで使う?
+                    |
+                    +---> 管理者から招待あり → [C] Teams / Enterprise
+                    |
+                    +---> AWS / Google Cloud 利用中 → [D] Cloud Provider
+```
+
+---
+
+### 方法 A: サブスクリプション (Pro / Max)
+
+claude.com のサブスクリプション契約を利用してブラウザ認証します。
+
+| プラン | 月額 | 利用量の目安 |
+|--------|------|-------------|
+| Pro | $20 | 個人開発・学習向け |
+| Max 5x | $100 | ヘビーユーザー向け |
+| Max 20x | $200 | プロフェッショナル向け |
+
+**手順:**
+
+1. claude-ready が `claude login` を自動実行します
+2. ブラウザが開き、claude.com のサインイン画面が表示されます
+3. アカウントにサインインして認証を完了します
+4. ターミナルに「認証に成功しました」と表示されれば完了
+
+> **重要: API キーとの競合に注意**
+>
+> 環境変数 `ANTHROPIC_API_KEY` が設定されていると、サブスクリプション認証よりも API キーが優先されます。`.env` ファイルに `ANTHROPIC_API_KEY` が含まれている場合、claude-ready は自動的に警告を表示し、削除の確認を求めます。
+
+---
+
+### 方法 B: API キー（従量課金）
+
+Anthropic Console で発行した API キーを使用します。使った分だけ課金されます。
+
+**手順:**
+
+1. ブラウザが自動的に Anthropic Console（`console.anthropic.com`）を開きます
 2. Anthropic アカウントにサインイン（未登録の場合はアカウント作成）
 3. **API Keys** セクションで新しいキーを生成
 4. 生成されたキー（`sk-ant-` で始まる文字列）をコピー
 5. ターミナルに戻り、キーを入力
 
-### キーの保存
+**キーの保存:**
 
 入力された API キーはプロジェクトディレクトリの `.env` ファイルに保存されます。このファイルはセキュリティ設定により Claude Code からの読み取りが自動的にブロックされます。
 
 > **注意**: API キーは秘密情報です。Git にコミットしないでください（`.gitignore` に自動追加されます）。
+
+---
+
+### 方法 C: Teams / Enterprise
+
+組織の管理者からの招待を受けてログインします。
+
+**手順:**
+
+1. 組織の管理者に Claude Code Teams / Enterprise アカウントへの招待を依頼します
+2. 招待メールを受け取ったら、リンクをクリックして組織アカウントを有効化します
+3. claude-ready が `claude login` を自動実行します
+4. ブラウザで組織アカウントにサインインして認証を完了します
+
+| プラン | 特徴 |
+|--------|------|
+| Teams | 中小規模チーム向け。管理コンソールで利用状況を管理 |
+| Enterprise | 大規模組織向け。SSO 連携・監査ログ・高度なセキュリティ |
+
+---
+
+### 方法 D: Cloud Provider (Bedrock / Vertex AI)
+
+AWS または Google Cloud のインフラ経由で Claude を使用します。
+
+claude-ready はプロバイダーを選択後、必要な環境変数の一覧を表示します。以下の変数をシェルの設定ファイル（`~/.zshrc` など）または `.env` ファイルに設定してください。
+
+**AWS Bedrock:**
+
+```bash
+CLAUDE_CODE_USE_BEDROCK=1
+AWS_REGION=<your-region>            # 例: us-east-1
+AWS_ACCESS_KEY_ID=<your-key-id>
+AWS_SECRET_ACCESS_KEY=<your-secret>
+```
+
+**Google Cloud Vertex AI:**
+
+```bash
+CLAUDE_CODE_USE_VERTEX=1
+CLOUD_ML_REGION=<your-region>       # 例: us-east5
+ANTHROPIC_VERTEX_PROJECT_ID=<your-project-id>
+```
+
+> **注意**: Cloud Provider 認証情報（アクセスキー等）も秘密情報です。`.env` ファイルに記述する場合は `.gitignore` に追加してください。
 
 ---
 
@@ -358,6 +459,47 @@ npm -v     # npm も同時にインストールされます
 3. Anthropic コンソールでキーが有効（Active）な状態であること
 4. アカウントにクレジットが残っていること
 
+## Q: サブスクリプションと API キーの違いは何ですか？
+
+**A**: 主な違いは料金体系です:
+
+| | サブスクリプション | API キー |
+|---|---|---|
+| 料金 | 月額定額（$20〜） | 使用量に応じた従量課金 |
+| 対象 | 個人向け claude.com プラン | 開発者向け Anthropic Console |
+| 管理 | claude.com で管理 | Anthropic Console で管理 |
+
+## Q: サブスクリプション契約しているのに API 料金が発生します
+
+**A**: 環境変数 `ANTHROPIC_API_KEY` が設定されていると、サブスクリプション認証より API キー認証が優先されます。
+
+確認手順:
+1. プロジェクトの `.env` ファイルを確認して `ANTHROPIC_API_KEY` が含まれていないかチェック
+2. シェルの設定ファイル（`~/.zshrc` 等）で `export ANTHROPIC_API_KEY=...` が設定されていないか確認
+3. 設定されている場合は削除して `claude login` を再実行
+
+## Q: Teams アカウントへの招待が届きません
+
+**A**: 組織の管理者に以下を確認してください:
+
+1. 管理者が Claude Code Teams 管理コンソールにアクセスできるか
+2. 招待先のメールアドレスが正しいか
+3. 迷惑メールフォルダを確認するよう依頼
+
+## Q: Cloud Provider 認証が通りません
+
+**A**: 各プロバイダーの確認事項:
+
+**AWS Bedrock:**
+- `AWS_REGION` で指定したリージョンで Claude モデルが利用可能か確認
+- IAM ロール / ユーザーに `bedrock:InvokeModel` 権限があるか確認
+- AWS 側で Bedrock の Claude モデルアクセスが有効化されているか確認
+
+**Google Cloud Vertex AI:**
+- `ANTHROPIC_VERTEX_PROJECT_ID` のプロジェクトで Vertex AI API が有効か確認
+- サービスアカウントに `roles/aiplatform.user` 権限があるか確認
+- `CLOUD_ML_REGION` がサポートされているリージョンか確認
+
 ## Q: ネットワークエラーが発生します
 
 **A**: 以下を確認してください:
@@ -398,6 +540,16 @@ claude-ready は「セキュリティ・バイ・デフォルト」の設計思�
 └── .claude/
     └── settings.json    ← deny ルールが記載
 ```
+
+## 認証方式の優先順位
+
+Claude Code は以下の優先順位で認証を判断します:
+
+1. `ANTHROPIC_API_KEY` 環境変数（設定されている場合は最優先）
+2. `claude login` によるブラウザ認証（サブスクリプション / Teams）
+3. Cloud Provider 環境変数（`CLAUDE_CODE_USE_BEDROCK=1` 等）
+
+> **注意**: サブスクリプション契約がある場合でも、`ANTHROPIC_API_KEY` が設定されていると API キー認証が優先され、別途従量課金が発生する可能性があります。
 
 ## カスタマイズ
 
