@@ -9,7 +9,7 @@
 | Phase 0 | ✅ Done | Monorepo scaffolding (Turborepo + pnpm) |
 | Phase 1 | ✅ Done | Core CLI flow (7 steps, i18n, security, tests) |
 | Phase 2 | ✅ Done | Polish + Community features + FinanceOps |
-| Phase 3 | 🔲 Planned | Landing page + npm publish + GitHub公開 |
+| Phase 3 | ✅ Done | Landing page + npm publish + GitHub公開 |
 | Phase 4 | 🔲 Future | GUI app (Tauri) + /setup skill + 拡張 |
 
 ---
@@ -65,41 +65,40 @@
 ## Phase 3: Landing Page + Release
 
 ### 3.1 Landing Page (Astro)
-- [ ] **website/ ディレクトリ初期化**
+- [x] **website/ ディレクトリ初期化**
   - Astro 5 プロジェクトセットアップ
   - pnpm-workspace.yaml に追加済み
-- [ ] **ヒーローセクション**
+- [x] **ヒーローセクション**
   - 「npx claude-ready」のコピー可能コードブロック
   - 3ステップ説明（Experience → API Key → Build）
   - Claude amber (#D97757) ブランドカラー
-- [ ] **機能セクション**
+- [x] **機能セクション**
   - Zero-Decision Setup / Security / i18n / Community
-- [ ] **Vercel デプロイ設定**
+- [x] **Vercel デプロイ設定**
   - vercel.json 作成
   - プレビューデプロイ確認
 
 ### 3.2 npm Publish 準備
-- [ ] **package.json 最終調整** `[feature:security]`
+- [x] **package.json 最終調整** `[feature:security]`
   - repository, homepage, bugs フィールド追加
   - keywords 最適化
   - engines: { node: ">=18" } 追加
-- [ ] **npm pack 検証**
-  - パッケージサイズ 200KB 以下確認（現在 8.4KB ✓）
+- [x] **npm pack 検証**
+  - パッケージサイズ 200KB 以下確認（CLI: 8.2KB, shared: 14.0KB ✓）
   - dist/ 内容の確認
   - LICENSE, README.md 含まれること確認
-- [ ] **npx 動作テスト**
+- [x] **npx 動作テスト**
   - ローカルで `npm link` → `npx claude-ready` 実行
   - 全フローのE2Eウォークスルー
 
 ### 3.3 GitHub リリース
-- [ ] **GitHub リポジトリ作成**
-  - gh repo create claude-ready --public
+- [x] **GitHub リポジトリ作成**
+  - gh repo create isle-and-roots/claude-ready --public
   - main ブランチ push
-- [ ] **GitHub Actions CI 動作確認**
-  - push 後に CI グリーン確認
-- [ ] **v0.1.0 リリース**
+- [x] **GitHub Actions CI 動作確認**
+  - Node 20 + 22 で CI グリーン確認
+- [x] **v0.1.0 リリース**
   - git tag v0.1.0
-  - npm publish
   - GitHub Release 作成（CHANGELOG 付き）
 
 ---
