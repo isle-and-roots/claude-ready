@@ -1,0 +1,555 @@
+---
+const title = "claude-ready";
+const description = "Setup Claude Code in 5 minutes";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={description} />
+  <title>{title}</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://claude-ready.dev" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+</head>
+<body>
+  <a href="#main-content" class="skip-nav">Skip to content</a>
+  <header>
+    <nav>
+      <span class="logo">claude-ready</span>
+      <div class="nav-links">
+        <a href="https://github.com/naotoshima/claude-ready" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.npmjs.com/package/claude-ready" target="_blank" rel="noopener">npm</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container">
+        <h1>claude-ready</h1>
+        <p class="tagline">Setup Claude Code in 5 minutes</p>
+        <div class="code-block">
+          <code>npx claude-ready</code>
+          <button class="copy-btn" onclick="navigator.clipboard.writeText('npx claude-ready')">Copy</button>
+        </div>
+
+        <div class="steps">
+          <div class="step">
+            <span class="step-number">1</span>
+            <div class="step-content">
+              <h3>Run</h3>
+              <p>Execute <code>npx claude-ready</code> in your project root</p>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step-number">2</span>
+            <div class="step-content">
+              <h3>Choose</h3>
+              <p>Select your language and preferences via interactive prompts</p>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step-number">3</span>
+            <div class="step-content">
+              <h3>Code</h3>
+              <p>Start working with Claude Code — fully configured and ready</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+      <div class="container">
+        <h2>Why claude-ready?</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">&#9889;</div>
+            <h3>Zero-Decision Setup</h3>
+            <p>Sensible defaults for CLAUDE.md, memory, and project structure. Get started without bikeshedding configuration.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">&#128274;</div>
+            <h3>Built-in Security</h3>
+            <p>Pre-configured .gitignore patterns for secrets, permission settings, and safe defaults that protect your project.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">&#127760;</div>
+            <h3>i18n Support</h3>
+            <p>First-class English and Japanese support. Templates and documentation available in both languages out of the box.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">&#128101;</div>
+            <h3>Community Driven</h3>
+            <p>Evolving best practices from the Claude Code community. Stay current with proven patterns and workflows.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Start Section -->
+    <section class="quickstart">
+      <div class="container">
+        <h2>Quick Start</h2>
+        <div class="quickstart-steps">
+          <div class="qs-step">
+            <span class="qs-label">Install &amp; Run</span>
+            <div class="code-block">
+              <code>npx claude-ready</code>
+            </div>
+          </div>
+          <div class="qs-step">
+            <span class="qs-label">Or install globally</span>
+            <div class="code-block">
+              <code>npm install -g claude-ready</code>
+            </div>
+            <div class="code-block" style="margin-top: 0.5rem;">
+              <code>claude-ready</code>
+            </div>
+          </div>
+        </div>
+        <p class="qs-note">Requires Node.js 18+ and an active Claude Code subscription.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p class="footer-brand">claude-ready</p>
+      <div class="footer-links">
+        <a href="https://github.com/naotoshima/claude-ready" target="_blank" rel="noopener">
+          GitHub
+        </a>
+        <a href="https://www.npmjs.com/package/claude-ready" target="_blank" rel="noopener">
+          npm
+        </a>
+      </div>
+      <p class="footer-copy">&copy; 2026 claude-ready contributors. MIT License.</p>
+    </div>
+  </footer>
+</body>
+</html>
+
+<style>
+  .skip-nav {
+    position: absolute;
+    left: -9999px;
+    z-index: 999;
+    padding: 0.5rem 1rem;
+    background: var(--amber);
+    color: white;
+    text-decoration: none;
+    border-radius: 0 0 var(--radius) 0;
+  }
+  .skip-nav:focus {
+    left: 0;
+    top: 0;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--amber);
+    outline-offset: 2px;
+  }
+
+  /* CSS Variables */
+  :root {
+    --amber: #D97757;
+    --amber-light: #e8956e;
+    --amber-dark: #b85e3e;
+    --bg: #ffffff;
+    --bg-secondary: #f8f7f5;
+    --bg-card: #ffffff;
+    --text: #1a1a1a;
+    --text-muted: #6b6b6b;
+    --border: #e5e5e5;
+    --code-bg: #1e1e1e;
+    --code-text: #f8f8f2;
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.12);
+    --radius: 8px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f0f0f;
+      --bg-secondary: #1a1a1a;
+      --bg-card: #1e1e1e;
+      --text: #f0f0f0;
+      --text-muted: #a0a0a0;
+      --border: #2e2e2e;
+      --shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+      --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.6);
+    }
+  }
+
+  /* Reset & Base */
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1;
+  }
+
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  /* Navigation */
+  header {
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background-color: var(--bg);
+    z-index: 100;
+    backdrop-filter: blur(8px);
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem;
+  }
+
+  .logo {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--amber);
+    font-family: 'Courier New', monospace;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover {
+    color: var(--amber);
+  }
+
+  /* Hero Section */
+  .hero {
+    padding: 5rem 0 4rem;
+    text-align: center;
+    background: var(--bg);
+  }
+
+  .hero h1 {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 800;
+    color: var(--amber);
+    font-family: 'Courier New', monospace;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+
+  .tagline {
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    color: var(--text-muted);
+    margin-bottom: 2.5rem;
+  }
+
+  /* Code Block */
+  .code-block {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--code-bg);
+    border-radius: var(--radius);
+    padding: 0.75rem 1.25rem;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    box-shadow: var(--shadow);
+  }
+
+  .code-block code {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.1rem;
+    color: var(--amber);
+    white-space: nowrap;
+  }
+
+  .copy-btn {
+    background: var(--amber);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.3rem 0.75rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-weight: 500;
+  }
+
+  .copy-btn:hover {
+    background: var(--amber-dark);
+  }
+
+  /* Steps */
+  .steps {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    text-align: left;
+    margin-top: 1rem;
+  }
+
+  .step {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    flex: 1;
+    min-width: 200px;
+    max-width: 280px;
+    box-shadow: var(--shadow);
+  }
+
+  .step-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: var(--amber);
+    color: white;
+    font-weight: 700;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+
+  .step-content h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    color: var(--text);
+  }
+
+  .step-content p {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .step-content code {
+    font-family: 'Courier New', monospace;
+    background: var(--bg-secondary);
+    padding: 0.1em 0.3em;
+    border-radius: 3px;
+    font-size: 0.85em;
+    color: var(--amber);
+  }
+
+  /* Features Section */
+  .features {
+    padding: 4rem 0;
+    background: var(--bg-secondary);
+  }
+
+  .features h2 {
+    text-align: center;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    margin-bottom: 2.5rem;
+    color: var(--text);
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .feature-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+
+  .feature-card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+  }
+
+  .feature-icon {
+    font-size: 1.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .feature-card h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+  }
+
+  .feature-card p {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* Quick Start Section */
+  .quickstart {
+    padding: 4rem 0;
+    background: var(--bg);
+  }
+
+  .quickstart h2 {
+    text-align: center;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    margin-bottom: 2.5rem;
+    color: var(--text);
+  }
+
+  .quickstart-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .qs-step {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .qs-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .quickstart .code-block {
+    width: 100%;
+    display: flex;
+    margin-bottom: 0;
+  }
+
+  .qs-note {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 2rem;
+  }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 0;
+    background: var(--bg-secondary);
+  }
+
+  footer .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .footer-brand {
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    color: var(--amber);
+    font-size: 1rem;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .footer-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover {
+    color: var(--amber);
+  }
+
+  .footer-copy {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .hero {
+      padding: 3rem 0 2.5rem;
+    }
+
+    .steps {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .step {
+      max-width: 100%;
+      width: 100%;
+    }
+
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .code-block {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+  }
+</style>

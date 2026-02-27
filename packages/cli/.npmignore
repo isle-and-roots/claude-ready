@@ -1,0 +1,7 @@
+dist/*.map
+src/
+*.test.ts
+*.spec.ts
+tsup.config.ts
+tsconfig.json
+vitest.config.ts

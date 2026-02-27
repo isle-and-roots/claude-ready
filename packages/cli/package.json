@@ -6,7 +6,7 @@
   "bin": {
     "claude-ready": "./dist/index.js"
   },
-  "files": ["dist"],
+  "files": ["dist/*.js", "README.md", "LICENSE"],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
@@ -18,11 +18,25 @@
   "keywords": [
     "claude",
     "claude-code",
-    "ai",
     "setup",
-    "onboarding"
+    "cli",
+    "ai",
+    "onboarding",
+    "anthropic"
   ],
   "license": "MIT",
+  "author": "naotoshima",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/naotoshima/claude-ready"
+  },
+  "homepage": "https://claude-ready.dev",
+  "bugs": {
+    "url": "https://github.com/naotoshima/claude-ready/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  },
   "dependencies": {
     "@clack/prompts": "^0.9.1",
     "picocolors": "^1.1.1",
