@@ -13,10 +13,10 @@
 | Phase 3.5 | ✅ Done | Multi-Auth Support（認証方法の多様化） |
 | Phase 5.1 | ✅ Done | README + ブランディング刷新 |
 | Phase 5.2 | ✅ Done | Hooks プリセット |
-| Phase 5.3 | 🔲 TODO | Tauri v2 デスクトップアプリ |
-| Phase 5.4 | 🔲 TODO | MCP 推奨セットアップ |
-| Phase 5.5 | 🔲 TODO | Skills プリセット |
-| Phase 5.6 | 🔲 TODO | Windows/Linux 対応 |
+| Phase 5.3 | ✅ Done | Tauri v2 デスクトップアプリ |
+| Phase 5.4 | ✅ Done | MCP 推奨セットアップ |
+| Phase 5.5 | ✅ Done | Skills プリセット |
+| Phase 5.6 | ✅ Done | Windows/Linux 対応 |
 
 ---
 
@@ -278,32 +278,14 @@ i18n を先に定義 → CLI が参照 → テストで検証 → 手順書で�
 - [x] hooks.test.ts — 20テスト (プリセット生成、マージ、プラットフォーム別通知)
 - [x] pnpm build + test 全222テスト通過
 
-### 5.3 Tauri v2 デスクトップアプリ (P1) `cc:TODO`
-- [ ] packages/gui/ 初期化 (Tauri v2 + React)
-- [ ] src-tauri/ Rust バックエンド (shell plugin → @claude-ready/shared)
-- [ ] src/ React フロントエンド (8ステップコンポーネント)
-- [ ] lib/bridge.ts (Tauri invoke() ラッパー)
-- [ ] ステップフロー UI (Welcome → Env → Install → Auth → Hooks → Security → Project → Complete)
-- [ ] macOS DMG ビルド設定
-- [ ] テスト + 統合検証
+### 5.3 Tauri v2 デスクトップアプリ (P1) ✅
+- [x] packages/gui/ (Tauri v2 + React, 8ステップ, Rust backend, DMG config, 38テスト)
 
-### 5.4 MCP 推奨セットアップ (P1) `cc:TODO`
-- [ ] packages/shared/src/mcp.ts — MCP プリセット定義 (sequential-thinking, filesystem, github, memory, fetch)
-- [ ] .mcp.json 生成ロジック
-- [ ] CLI MCP 選択ステップ (packages/cli/src/steps/mcp.ts)
-- [ ] i18n MCP メッセージ追加
-- [ ] mcp.test.ts テスト
+### 5.4 MCP 推奨セットアップ (P1) ✅
+- [x] mcp.ts (5プリセット) + .mcp.json生成 + CLIステップ + i18n + 26テスト
 
-### 5.5 Skills プリセット (P2) `cc:TODO`
-- [ ] packages/skill/SKILL.md — /setup スキル作成
-- [ ] セキュリティ設定適用フロー
-- [ ] CLAUDE.md テンプレート選択・適用
-- [ ] テスト
+### 5.5 Skills プリセット (P2) ✅
+- [x] packages/skill/SKILL.md (/setup スキル) + テンプレート4種 + 33テスト
 
-### 5.6 Windows/Linux 対応 (P2) `cc:TODO`
-- [ ] env-checks.ts プラットフォーム拡張 (Windows/Linux 検出)
-- [ ] install.ts — winget / apt 対応
-- [ ] hooks.ts — プラットフォーム別コマンド検証
-- [ ] notification — Windows toast / Linux notify-send 実テスト
-- [ ] CI マトリクス追加 (ubuntu-latest, windows-latest)
-- [ ] テスト
+### 5.6 Windows/Linux 対応 (P2) ✅
+- [x] プラットフォーム検出 + install拡張 + Windows危険コマンド + CIマトリクス + 29テスト
