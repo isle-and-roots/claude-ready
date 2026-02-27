@@ -142,6 +142,22 @@ export interface I18nMessages {
     enabled: string;
     skipped: string;
   };
+  mcp: {
+    question: string;
+    filesystem: string;
+    filesystemDesc: string;
+    github: string;
+    githubDesc: string;
+    postgres: string;
+    postgresDesc: string;
+    puppeteer: string;
+    puppeteerDesc: string;
+    braveSearch: string;
+    braveSearchDesc: string;
+    enabled: string;
+    skipped: string;
+    envNote: string;
+  };
   cancel: string;
   dryRun: {
     mode: string;
@@ -321,6 +337,22 @@ const en: I18nMessages = {
     enabled: 'Hooks enabled',
     skipped: 'Hooks skipped',
   },
+  mcp: {
+    question: 'Add MCP servers?',
+    filesystem: 'Filesystem',
+    filesystemDesc: 'Read and write local files',
+    github: 'GitHub',
+    githubDesc: 'Access GitHub repos, issues, and PRs (requires GITHUB_PERSONAL_ACCESS_TOKEN)',
+    postgres: 'PostgreSQL',
+    postgresDesc: 'Query a PostgreSQL database (requires POSTGRES_CONNECTION_STRING)',
+    puppeteer: 'Puppeteer',
+    puppeteerDesc: 'Browser automation and web scraping',
+    braveSearch: 'Brave Search',
+    braveSearchDesc: 'Web search via Brave API (requires BRAVE_API_KEY)',
+    enabled: 'MCP servers configured',
+    skipped: 'MCP setup skipped',
+    envNote: 'Note: some servers require environment variables — see .mcp.json',
+  },
   cancel: 'Setup cancelled.',
   dryRun: {
     mode: 'Dry run mode — no files will be written or packages installed.',
@@ -499,6 +531,22 @@ const ja: I18nMessages = {
     notificationDesc: 'タスク完了時にデスクトップ通知',
     enabled: 'フックが有効になりました',
     skipped: 'フックをスキップしました',
+  },
+  mcp: {
+    question: 'MCPサーバーを追加しますか？',
+    filesystem: 'ファイルシステム',
+    filesystemDesc: 'ローカルファイルの読み書き',
+    github: 'GitHub',
+    githubDesc: 'GitHubのリポジトリ・Issue・PRにアクセス（GITHUB_PERSONAL_ACCESS_TOKEN が必要）',
+    postgres: 'PostgreSQL',
+    postgresDesc: 'PostgreSQLデータベースへのクエリ（POSTGRES_CONNECTION_STRING が必要）',
+    puppeteer: 'Puppeteer',
+    puppeteerDesc: 'ブラウザ自動化とウェブスクレイピング',
+    braveSearch: 'Brave Search',
+    braveSearchDesc: 'Brave API によるウェブ検索（BRAVE_API_KEY が必要）',
+    enabled: 'MCPサーバーを設定しました',
+    skipped: 'MCPのセットアップをスキップしました',
+    envNote: '注意: 一部のサーバーには環境変数が必要です — .mcp.json を確認してください',
   },
   cancel: 'セットアップがキャンセルされました。',
   dryRun: {

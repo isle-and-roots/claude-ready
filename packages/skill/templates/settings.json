@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(.env)",
+      "Read(.env.*)",
+      "Read(.env.local)",
+      "Read(**/secrets/**)",
+      "Read(**/*credential*)",
+      "Bash(rm -rf /)",
+      "Bash(rm -rf ~)",
+      "Bash(sudo *)",
+      "Bash(curl * | bash)",
+      "Write(.env)",
+      "Write(.env.*)",
+      "Write(.env.local)",
+      "Write(*.pem)",
+      "Write(**/*credential*)",
+      "Write(.ssh/*)"
+    ]
+  }
+}

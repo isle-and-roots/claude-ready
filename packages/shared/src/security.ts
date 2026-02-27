@@ -20,6 +20,14 @@ export const DENY_RULES = [
   'Write(.ssh/*)',
 ] as const;
 
+export const WINDOWS_DENY_RULES = [
+  'Bash(del /s *)',
+  'Bash(format *)',
+  'Bash(rd /s *)',
+  'Bash(Remove-Item * -Recurse -Force)',
+  'Bash(Format-Volume *)',
+] as const;
+
 export type DenyRule = (typeof DENY_RULES)[number];
 
 export interface ClaudeSettings {

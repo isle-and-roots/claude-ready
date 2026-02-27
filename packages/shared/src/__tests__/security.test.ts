@@ -1,5 +1,5 @@
 import { describe, it, expect, afterEach } from 'vitest';
-import { DENY_RULES, generateClaudeSettings, getSecurityRulesMarkdown, applySecuritySettings } from '../security.js';
+import { DENY_RULES, WINDOWS_DENY_RULES, generateClaudeSettings, getSecurityRulesMarkdown, applySecuritySettings } from '../security.js';
 import { existsSync, readFileSync, rmSync } from 'fs';
 import { join } from 'path';
 import { tmpdir } from 'os';
@@ -27,6 +27,28 @@ describe('DENY_RULES', () => {
 
   it('is a non-empty array', () => {
     expect(DENY_RULES.length).toBeGreaterThan(0);
+  });
+});
+
+describe('WINDOWS_DENY_RULES', () => {
+  it('is a non-empty array', () => {
+    expect(WINDOWS_DENY_RULES.length).toBeGreaterThan(0);
+  });
+
+  it('contains del /s protection', () => {
+    expect(WINDOWS_DENY_RULES.some((r) => r.includes('del /s'))).toBe(true);
+  });
+
+  it('contains format protection', () => {
+    expect(WINDOWS_DENY_RULES.some((r) => r.includes('format'))).toBe(true);
+  });
+
+  it('contains rd /s protection', () => {
+    expect(WINDOWS_DENY_RULES.some((r) => r.includes('rd /s'))).toBe(true);
+  });
+
+  it('contains PowerShell Remove-Item protection', () => {
+    expect(WINDOWS_DENY_RULES.some((r) => r.includes('Remove-Item'))).toBe(true);
   });
 });
 

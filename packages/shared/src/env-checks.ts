@@ -4,6 +4,14 @@ export function isMacOS(): boolean {
   return process.platform === 'darwin';
 }
 
+export function isWindows(): boolean {
+  return process.platform === 'win32';
+}
+
+export function isLinux(): boolean {
+  return process.platform === 'linux';
+}
+
 export function getNodeVersion(): string {
   return process.version;
 }
@@ -35,6 +43,8 @@ export function getSystemLocale(): string {
 
 export interface EnvironmentStatus {
   isMacOS: boolean;
+  isWindows: boolean;
+  isLinux: boolean;
   nodeVersion: string;
   isNodeVersionSupported: boolean;
   isClaudeCodeInstalled: boolean;
@@ -44,6 +54,8 @@ export interface EnvironmentStatus {
 export function checkEnvironment(): EnvironmentStatus {
   return {
     isMacOS: isMacOS(),
+    isWindows: isWindows(),
+    isLinux: isLinux(),
     nodeVersion: getNodeVersion(),
     isNodeVersionSupported: isNodeVersionSupported(18),
     isClaudeCodeInstalled: isClaudeCodeInstalled(),

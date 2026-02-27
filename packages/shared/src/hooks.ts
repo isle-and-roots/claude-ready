@@ -39,6 +39,18 @@ const DANGEROUS_COMMANDS = [
   'chmod -R 777 /',
   'wget.*\\|.*sh',
   'curl.*\\|.*sh',
+  // Windows-specific dangerous commands
+  'del /s',
+  'format [A-Z]:',
+  'rd /s',
+].join('|');
+
+const DANGEROUS_COMMANDS_WINDOWS = [
+  'del /s',
+  'format [A-Z]:',
+  'rd /s',
+  'Remove-Item.*-Recurse.*-Force',
+  'Format-Volume',
 ].join('|');
 
 function getNotificationCommand(platform: NodeJS.Platform): string {
@@ -83,32 +95,42 @@ function buildPreset(id: HookPresetId, platform: NodeJS.Platform): HookPreset {
           ],
         },
       };
-    case 'dangerous-cmd-block':
+    case 'dangerous-cmd-block': {
+      const blockCommand =
+        platform === 'win32'
+          ? `$cmd = $env:CLAUDE_COMMAND; if ($cmd -match '${DANGEROUS_COMMANDS_WINDOWS}') { Write-Error 'BLOCKED: dangerous command detected'; exit 2 }`
+          : `if echo "$CLAUDE_COMMAND" | grep -qE '${DANGEROUS_COMMANDS}'; then echo "BLOCKED: dangerous command detected" >&2; exit 2; fi`;
       return {
         id,
         hooks: {
           PreToolUse: [
             {
               type: 'command',
-              command: `if echo "$CLAUDE_COMMAND" | grep -qE '${DANGEROUS_COMMANDS}'; then echo "BLOCKED: dangerous command detected" >&2; exit 2; fi`,
+              command: blockCommand,
               matcher: { tool_name: 'Bash' },
             },
           ],
         },
       };
-    case 'cost-tracker':
+    }
+    case 'cost-tracker': {
+      const costCommand =
+        platform === 'win32'
+          ? 'powershell -Command "Add-Content -Path usage.log -Value ((Get-Date -Format \'yyyy-MM-ddTHH:mm:ssZ\') + \' tool=\' + $env:CLAUDE_TOOL_NAME)"'
+          : 'echo "$(date -u +%Y-%m-%dT%H:%M:%SZ) tool=$CLAUDE_TOOL_NAME" >> usage.log';
       return {
         id,
         hooks: {
           PostToolUse: [
             {
               type: 'command',
-              command: 'echo "$(date -u +%Y-%m-%dT%H:%M:%SZ) tool=$CLAUDE_TOOL_NAME" >> usage.log',
+              command: costCommand,
               timeout: 5000,
             },
           ],
         },
       };
+    }
     case 'notification':
       return {
         id,

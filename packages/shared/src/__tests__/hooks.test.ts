@@ -71,6 +71,49 @@ describe('getHookPresets platform-specific notification', () => {
   });
 });
 
+describe('getHookPresets platform-specific dangerous-cmd-block', () => {
+  it('win32 uses powershell block command', () => {
+    const presets = getHookPresets('win32');
+    const dcb = presets.find((p) => p.id === 'dangerous-cmd-block');
+    expect(dcb?.hooks.PreToolUse?.[0].command).toContain('Write-Error');
+    expect(dcb?.hooks.PreToolUse?.[0].command).toContain('del /s');
+  });
+
+  it('darwin uses grep-based block command', () => {
+    const presets = getHookPresets('darwin');
+    const dcb = presets.find((p) => p.id === 'dangerous-cmd-block');
+    expect(dcb?.hooks.PreToolUse?.[0].command).toContain('grep');
+    expect(dcb?.hooks.PreToolUse?.[0].command).toContain('rm -rf /');
+  });
+
+  it('linux uses grep-based block command', () => {
+    const presets = getHookPresets('linux');
+    const dcb = presets.find((p) => p.id === 'dangerous-cmd-block');
+    expect(dcb?.hooks.PreToolUse?.[0].command).toContain('grep');
+  });
+});
+
+describe('getHookPresets platform-specific cost-tracker', () => {
+  it('win32 uses powershell date command', () => {
+    const presets = getHookPresets('win32');
+    const ct = presets.find((p) => p.id === 'cost-tracker');
+    expect(ct?.hooks.PostToolUse?.[0].command).toContain('powershell');
+    expect(ct?.hooks.PostToolUse?.[0].command).toContain('Add-Content');
+  });
+
+  it('darwin uses unix date command', () => {
+    const presets = getHookPresets('darwin');
+    const ct = presets.find((p) => p.id === 'cost-tracker');
+    expect(ct?.hooks.PostToolUse?.[0].command).toContain('date -u');
+  });
+
+  it('linux uses unix date command', () => {
+    const presets = getHookPresets('linux');
+    const ct = presets.find((p) => p.id === 'cost-tracker');
+    expect(ct?.hooks.PostToolUse?.[0].command).toContain('date -u');
+  });
+});
+
 describe('generateHooksConfig', () => {
   it('returns empty object for empty preset list', () => {
     const config = generateHooksConfig([]);

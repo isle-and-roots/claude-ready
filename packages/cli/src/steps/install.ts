@@ -1,9 +1,20 @@
 import * as p from "@clack/prompts";
 import { execSync } from "child_process";
 import type { I18nMessages } from "@claude-ready/shared";
+import { isWindows, isLinux } from "@claude-ready/shared";
 import { success } from "../ui/theme.js";
 import type { ExperienceLevel } from "./welcome.js";
 import { FatalError } from "../errors.js";
+
+function getInstallCommand(): string {
+  if (isWindows()) {
+    return "npm install -g @anthropic-ai/claude-code";
+  }
+  if (isLinux()) {
+    return "npm install -g @anthropic-ai/claude-code";
+  }
+  return "npm install -g @anthropic-ai/claude-code";
+}
 
 export async function installStep(
   msgs: I18nMessages,
@@ -25,7 +36,7 @@ export async function installStep(
   s.start(msgs.install.installing);
 
   try {
-    execSync("npm install -g @anthropic-ai/claude-code", {
+    execSync(getInstallCommand(), {
       stdio: "ignore",
       timeout: 120_000,
     });

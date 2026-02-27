@@ -5,6 +5,7 @@ import { envCheckStep } from "./steps/env-check.js";
 import { installStep } from "./steps/install.js";
 import { authStep } from "./steps/auth.js";
 import { hooksStep } from "./steps/hooks.js";
+import { mcpStep } from "./steps/mcp.js";
 import { securityStep } from "./steps/security.js";
 import { projectStep } from "./steps/project.js";
 import { communityStep } from "./steps/community.js";
@@ -129,6 +130,11 @@ Options:
 
   // Phase 5: Hooks selection
   const hooksConfig = await hooksStep(msgs, level);
+
+  // Phase 5b: MCP server selection (skipped in dry-run)
+  if (!isDryRun) {
+    await mcpStep(msgs, level, projectDir);
+  }
 
   // Phase 6: Security (skipped in dry-run)
   if (!isDryRun) {
