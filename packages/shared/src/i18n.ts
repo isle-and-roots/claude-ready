@@ -127,6 +127,21 @@ export interface I18nMessages {
     nodejs: string;
     noProject: string;
   };
+  hooks: {
+    question: string;
+    autoFormat: string;
+    autoFormatDesc: string;
+    safeCommit: string;
+    safeCommitDesc: string;
+    dangerousCmdBlock: string;
+    dangerousCmdBlockDesc: string;
+    costTracker: string;
+    costTrackerDesc: string;
+    notification: string;
+    notificationDesc: string;
+    enabled: string;
+    skipped: string;
+  };
   cancel: string;
   dryRun: {
     mode: string;
@@ -291,6 +306,21 @@ const en: I18nMessages = {
     nodejs: 'Node.js',
     noProject: 'No project',
   },
+  hooks: {
+    question: 'Enable recommended hooks?',
+    autoFormat: 'Auto-format',
+    autoFormatDesc: 'Run Prettier after every file edit',
+    safeCommit: 'Safe commit',
+    safeCommitDesc: 'Auto-commit after edits (checkpoint style)',
+    dangerousCmdBlock: 'Dangerous command block',
+    dangerousCmdBlockDesc: 'Block dangerous shell commands before execution',
+    costTracker: 'Cost tracker',
+    costTrackerDesc: 'Log tool usage to usage.log',
+    notification: 'Notification',
+    notificationDesc: 'Desktop notification on task completion',
+    enabled: 'Hooks enabled',
+    skipped: 'Hooks skipped',
+  },
   cancel: 'Setup cancelled.',
   dryRun: {
     mode: 'Dry run mode — no files will be written or packages installed.',
@@ -454,6 +484,21 @@ const ja: I18nMessages = {
     reactVite: 'React / Vite',
     nodejs: 'Node.js',
     noProject: 'プロジェクトなし',
+  },
+  hooks: {
+    question: '推奨フックを有効にしますか？',
+    autoFormat: '自動フォーマット',
+    autoFormatDesc: 'ファイル編集後にPrettierを自動実行',
+    safeCommit: '安全コミット',
+    safeCommitDesc: '編集後に自動コミット（チェックポイント方式）',
+    dangerousCmdBlock: '危険コマンドブロック',
+    dangerousCmdBlockDesc: '危険なシェルコマンドを実行前にブロック',
+    costTracker: 'コストトラッカー',
+    costTrackerDesc: 'ツール使用状況をusage.logに記録',
+    notification: '通知',
+    notificationDesc: 'タスク完了時にデスクトップ通知',
+    enabled: 'フックが有効になりました',
+    skipped: 'フックをスキップしました',
   },
   cancel: 'セットアップがキャンセルされました。',
   dryRun: {

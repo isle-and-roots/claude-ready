@@ -1,5 +1,6 @@
 import { writeFileSync, mkdirSync } from 'fs';
 import { join } from 'path';
+import type { HooksConfig } from './hooks.js';
 
 export const DENY_RULES = [
   'Read(.env)',
@@ -21,14 +22,21 @@ export const DENY_RULES = [
 
 export type DenyRule = (typeof DENY_RULES)[number];
 
-export function generateClaudeSettings(): {
+export interface ClaudeSettings {
   permissions: { deny: readonly string[] };
-} {
-  return {
+  hooks?: HooksConfig;
+}
+
+export function generateClaudeSettings(hooks?: HooksConfig): ClaudeSettings {
+  const settings: ClaudeSettings = {
     permissions: {
       deny: DENY_RULES,
     },
   };
+  if (hooks && Object.keys(hooks).length > 0) {
+    settings.hooks = hooks;
+  }
+  return settings;
 }
 
 export function getSecurityRulesMarkdown(): string {
@@ -41,7 +49,7 @@ ${rules}
 `;
 }
 
-export function applySecuritySettings(projectDir: string): void {
+export function applySecuritySettings(projectDir: string, hooks?: HooksConfig): void {
   const claudeDir = join(projectDir, '.claude');
   try {
     mkdirSync(claudeDir, { recursive: true });
@@ -50,7 +58,7 @@ export function applySecuritySettings(projectDir: string): void {
     throw new Error(`Failed to create .claude directory (${code ?? 'unknown error'})`);
   }
   const settingsPath = join(claudeDir, 'settings.json');
-  const settings = generateClaudeSettings();
+  const settings = generateClaudeSettings(hooks);
   try {
     writeFileSync(settingsPath, JSON.stringify(settings, null, 2) + '\n', 'utf-8');
   } catch (err) {

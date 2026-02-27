@@ -186,10 +186,48 @@ describe('auth messages', () => {
   });
 });
 
+describe('hooks messages', () => {
+  it('en has all hooks keys', () => {
+    const msgs = loadMessages('en');
+    expect(msgs.hooks).toBeDefined();
+    expect(msgs.hooks.question).toBeTruthy();
+    expect(msgs.hooks.autoFormat).toBeTruthy();
+    expect(msgs.hooks.autoFormatDesc).toBeTruthy();
+    expect(msgs.hooks.safeCommit).toBeTruthy();
+    expect(msgs.hooks.safeCommitDesc).toBeTruthy();
+    expect(msgs.hooks.dangerousCmdBlock).toBeTruthy();
+    expect(msgs.hooks.dangerousCmdBlockDesc).toBeTruthy();
+    expect(msgs.hooks.costTracker).toBeTruthy();
+    expect(msgs.hooks.costTrackerDesc).toBeTruthy();
+    expect(msgs.hooks.notification).toBeTruthy();
+    expect(msgs.hooks.notificationDesc).toBeTruthy();
+    expect(msgs.hooks.enabled).toBeTruthy();
+    expect(msgs.hooks.skipped).toBeTruthy();
+  });
+
+  it('ja has all hooks keys', () => {
+    const msgs = loadMessages('ja');
+    expect(msgs.hooks).toBeDefined();
+    expect(msgs.hooks.question).toBeTruthy();
+    expect(msgs.hooks.autoFormat).toBeTruthy();
+    expect(msgs.hooks.safeCommit).toBeTruthy();
+    expect(msgs.hooks.dangerousCmdBlock).toBeTruthy();
+    expect(msgs.hooks.costTracker).toBeTruthy();
+    expect(msgs.hooks.notification).toBeTruthy();
+    expect(msgs.hooks.enabled).toBeTruthy();
+    expect(msgs.hooks.skipped).toBeTruthy();
+  });
+
+  it('ja hooks.question is in Japanese', () => {
+    const msgs = loadMessages('ja');
+    expect(msgs.hooks.question).toContain('フック');
+  });
+});
+
 describe('all sections present in both locales', () => {
   const sections = [
     'welcome', 'envCheck', 'install', 'apiKey', 'project',
-    'complete', 'share', 'community', 'cost', 'learn', 'errors',
+    'complete', 'share', 'community', 'cost', 'learn', 'errors', 'hooks',
   ] as const;
 
   for (const section of sections) {

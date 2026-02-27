@@ -10,7 +10,13 @@
 | Phase 1 | ✅ Done | Core CLI flow (7 steps, i18n, security, tests) |
 | Phase 2 | ✅ Done | Polish + Community features + FinanceOps |
 | Phase 3 | ✅ Done | Landing page + npm publish + GitHub公開 |
-| Phase 4 | 🔲 Future | GUI app (Tauri) + /setup skill + 拡張 |
+| Phase 3.5 | ✅ Done | Multi-Auth Support（認証方法の多様化） |
+| Phase 5.1 | ✅ Done | README + ブランディング刷新 |
+| Phase 5.2 | ✅ Done | Hooks プリセット |
+| Phase 5.3 | 🔲 TODO | Tauri v2 デスクトップアプリ |
+| Phase 5.4 | 🔲 TODO | MCP 推奨セットアップ |
+| Phase 5.5 | 🔲 TODO | Skills プリセット |
+| Phase 5.6 | 🔲 TODO | Windows/Linux 対応 |
 
 ---
 
@@ -111,7 +117,7 @@
 
 **対象ファイル**: `packages/cli/src/steps/api-key.ts` → `auth.ts` にリネーム
 
-- [ ] **認証方法の選択 UI 追加**
+- [x] **認証方法の選択 UI 追加**
   - Step 4 を「API キー設定」から「認証設定」に変更
   - `@clack/prompts` の `select` で以下を表示:
     1. サブスクリプション（Pro / Max）— `claude login` で認証
@@ -120,7 +126,7 @@
     4. Cloud Provider（Bedrock / Vertex AI / Foundry）— 環境変数設定ガイド
   - Beginner モードでは各選択肢に1行の説明を追加
 
-- [ ] **サブスクリプション認証フロー（新規）**
+- [x] **サブスクリプション認証フロー（新規）**
   - `claude login` の存在確認（`which claude`）→ 未インストール時は Step 3 に戻す
   - `execSync('claude login')` を実行（ブラウザが自動で開く）
   - 認証成功後、`.env` に `ANTHROPIC_API_KEY` を書き込まない（サブスクリプション利用のため）
@@ -128,12 +134,12 @@
     - 「API キーが設定されています。サブスクリプションを使用する場合は `.env` から `ANTHROPIC_API_KEY` を削除してください」
     - 削除するかどうかを `confirm` で確認
 
-- [ ] **Teams / Enterprise フロー（新規）**
+- [x] **Teams / Enterprise フロー（新規）**
   - 管理者招待の案内テキスト表示
   - `claude login` を実行（サブスクリプションと同じブラウザ認証）
   - 認証後に組織名を確認表示
 
-- [ ] **Cloud Provider フロー（新規）**
+- [x] **Cloud Provider フロー（新規）**
   - Bedrock / Vertex AI / Foundry の選択 UI
   - 必要な環境変数の一覧表示（設定手順ガイド）
   - 実際の環境変数設定は手動（ユーザーに委任）
@@ -141,7 +147,7 @@
   - Vertex AI: `CLAUDE_CODE_USE_VERTEX=1`, `CLOUD_ML_REGION`, `ANTHROPIC_VERTEX_PROJECT_ID`
   - `.env` への書き込みはユーザー確認後
 
-- [ ] **既存 API キーフローの維持**
+- [x] **既存 API キーフローの維持**
   - 現在の `sk-ant-` バリデーション + `.env` 書き込みはそのまま
   - リファクタリングしてサブ関数に分離
 
@@ -149,7 +155,7 @@
 
 **対象ファイル**: `packages/shared/src/i18n.ts`
 
-- [ ] **I18nMessages 型に `auth` セクション追加**
+- [x] **I18nMessages 型に `auth` セクション追加**
   ```typescript
   auth: {
     methodQuestion: string;        // "認証方法を選択してください"
@@ -172,17 +178,17 @@
     beginnerAuthGuide: string[];   // 初心者向け認証方法の比較解説
   }
   ```
-- [ ] **EN / JA の翻訳追加**（各20メッセージ程度）
+- [x] **EN / JA の翻訳追加**（各20メッセージ程度）
 
 ### 3.5.3 手順書の更新
 
 **対象ファイル**: `docs/guide-ja.md`
 
-- [ ] **前提条件セクション更新**
+- [x] **前提条件セクション更新**
   - 「Anthropic アカウント」を「認証方法に応じたアカウント」に変更
   - 認証方法の比較表追加（方法、料金体系、対象者、必要なもの）
 
-- [ ] **Step 4 を全面書き換え**
+- [x] **Step 4 を全面書き換え**
   - タイトルを「API キー設定」→「認証設定」に変更
   - 4 つの認証パスそれぞれの手順を詳述:
     - **方法 A: サブスクリプション（Pro / Max）**: 料金プラン比較、`claude login` 手順、競合注意
@@ -191,13 +197,13 @@
     - **方法 D: Cloud Provider**: Bedrock / Vertex AI / Foundry の環境変数一覧
   - 認証方法の選び方フローチャート（テキスト図）
 
-- [ ] **FAQ セクション追加**
+- [x] **FAQ セクション追加**
   - Q: サブスクリプションと API キーの違いは？
   - Q: サブスクリプションなのに課金されている
   - Q: Teams アカウントの招待方法
   - Q: Cloud Provider の認証が通らない
 
-- [ ] **セキュリティ情報セクション追加**
+- [x] **セキュリティ情報セクション追加**
   - `ANTHROPIC_API_KEY` と サブスクリプション認証の優先順位
   - Cloud Provider 認証情報の取り扱い注意
 
@@ -205,19 +211,19 @@
 
 **対象ファイル**: `packages/cli/src/__tests__/steps.test.ts`, `packages/shared/src/__tests__/i18n.test.ts`
 
-- [ ] **認証選択のユニットテスト追加**
+- [x] **認証選択のユニットテスト追加**
   - サブスクリプション選択時のフロー
   - API キー選択時のフロー（既存テスト維持）
   - API キー競合検出テスト
   - Cloud Provider 選択時のフロー
   - キャンセル時の UserCancelledError テスト
-- [ ] **i18n テスト更新**
+- [x] **i18n テスト更新**
   - `auth` セクションの翻訳存在確認（EN/JA）
 
 ### 3.5.5 PDF 再生成 + Release 更新
 
-- [ ] `pnpm docs:pdf` で PDF を再生成
-- [ ] `gh release upload v0.1.0 docs/guide-ja.pdf --clobber` で上書き
+- [x] `pnpm docs:pdf` で PDF を再生成
+- [x] `gh release upload v0.1.0 docs/guide-ja.pdf --clobber` で上書き
 
 ---
 
@@ -257,56 +263,47 @@ i18n を先に定義 → CLI が参照 → テストで検証 → 手順書で�
 
 ---
 
-## Phase 4: GUI + 拡張 (Post-MVP)
+## Phase 5: Secure Claude Code Onboarding Kit
 
-### 4.1 Tauri v2 macOS アプリ
-- [ ] packages/gui/ ディレクトリ初期化 (Tauri v2 + React)
-- [ ] CLI と同じ CX フローを GUI で実装
-- [ ] ~5MB ネイティブアプリとしてビルド
-- [ ] DMG/pkg インストーラー作成
+### 5.1 README + ブランディング刷新 (P0) ✅
+- [x] README.md 全面書き換え (Onboarding Kit ポジショニング、Trust セクション)
+- [x] docs/TRUST.md 作成 (透明性ドキュメント)
+- [x] website index.astro 更新 (Hooks/MCP カード追加)
 
-### 4.2 /setup スラッシュコマンド
-- [ ] packages/skill/SKILL.md 作成
-  - 既存 Claude Code ユーザー向け環境最適化
-  - セキュリティ設定の適用
-  - CLAUDE.md テンプレートの選択・適用
+### 5.2 Hooks プリセット (P0) ✅
+- [x] hooks.ts — 5プリセット定義 + 生成ロジック (auto-format, safe-commit, dangerous-cmd-block, cost-tracker, notification)
+- [x] security.ts 拡張 — hooks パラメータ追加 (後方互換維持)
+- [x] i18n.ts — hooks セクション EN/JA 追加
+- [x] CLI hooks ステップ — multiselect UI + securityStep 統合
+- [x] hooks.test.ts — 20テスト (プリセット生成、マージ、プラットフォーム別通知)
+- [x] pnpm build + test 全222テスト通過
 
-### 4.3 プラットフォーム拡張
-- [ ] Windows 対応 (env-checks, install ロジック)
-- [ ] Linux 対応
-- [ ] 1Password / AWS Secrets Manager 連携
+### 5.3 Tauri v2 デスクトップアプリ (P1) `cc:TODO`
+- [ ] packages/gui/ 初期化 (Tauri v2 + React)
+- [ ] src-tauri/ Rust バックエンド (shell plugin → @claude-ready/shared)
+- [ ] src/ React フロントエンド (8ステップコンポーネント)
+- [ ] lib/bridge.ts (Tauri invoke() ラッパー)
+- [ ] ステップフロー UI (Welcome → Env → Install → Auth → Hooks → Security → Project → Complete)
+- [ ] macOS DMG ビルド設定
+- [ ] テスト + 統合検証
 
-### 4.4 コミュニティ拡張
-- [ ] リーダーボード機能
-- [ ] テンプレートマーケットプレイス
-- [ ] チームオンボーディングモード
+### 5.4 MCP 推奨セットアップ (P1) `cc:TODO`
+- [ ] packages/shared/src/mcp.ts — MCP プリセット定義 (sequential-thinking, filesystem, github, memory, fetch)
+- [ ] .mcp.json 生成ロジック
+- [ ] CLI MCP 選択ステップ (packages/cli/src/steps/mcp.ts)
+- [ ] i18n MCP メッセージ追加
+- [ ] mcp.test.ts テスト
 
----
+### 5.5 Skills プリセット (P2) `cc:TODO`
+- [ ] packages/skill/SKILL.md — /setup スキル作成
+- [ ] セキュリティ設定適用フロー
+- [ ] CLAUDE.md テンプレート選択・適用
+- [ ] テスト
 
-## Feature Priority Matrix
-
-| Priority | Feature | Phase | Effort |
-|----------|---------|-------|--------|
-| **Required** | Experience level differentiation | 2.1 | S |
-| **Required** | Error handling 強化 | 2.1 | S |
-| **Required** | npm publish + npx 動作確認 | 3.2 | S |
-| **Required** | GitHub リリース | 3.3 | S |
-| **Recommended** | FinanceOps コスト計算 | 2.2 | M |
-| **Recommended** | /learn 学習ジャーニー | 2.3 | M |
-| **Recommended** | Landing page | 3.1 | M |
-| **Recommended** | --share クリップボードコピー | 2.3 | S |
-| **Optional** | Meetup リモート連携 | 2.3 | S |
-| **Optional** | Tauri GUI | 4.1 | L |
-| **Optional** | /setup skill | 4.2 | M |
-| **Optional** | Windows/Linux 対応 | 4.3 | L |
-
-**Effort**: S = 〜1h, M = 2〜4h, L = 1日+
-
----
-
-## Technical Debt & Quality
-
-- [ ] CLI integration test（実際の npx 実行をモック付きで E2E テスト）
-- [x] `--dry-run` フラグ（ファイル書き込みをスキップしてフロー確認）
-- [x] shared パッケージの 100% テストカバレッジ確認
-- [x] TypeScript strict mode の lint エラー 0 件確認
+### 5.6 Windows/Linux 対応 (P2) `cc:TODO`
+- [ ] env-checks.ts プラットフォーム拡張 (Windows/Linux 検出)
+- [ ] install.ts — winget / apt 対応
+- [ ] hooks.ts — プラットフォーム別コマンド検証
+- [ ] notification — Windows toast / Linux notify-send 実テスト
+- [ ] CI マトリクス追加 (ubuntu-latest, windows-latest)
+- [ ] テスト

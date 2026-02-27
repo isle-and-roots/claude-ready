@@ -4,6 +4,7 @@ import { welcomeStep } from "./steps/welcome.js";
 import { envCheckStep } from "./steps/env-check.js";
 import { installStep } from "./steps/install.js";
 import { authStep } from "./steps/auth.js";
+import { hooksStep } from "./steps/hooks.js";
 import { securityStep } from "./steps/security.js";
 import { projectStep } from "./steps/project.js";
 import { communityStep } from "./steps/community.js";
@@ -126,20 +127,23 @@ Options:
     p.log.info(msgs.dryRun.skipApiKey);
   }
 
-  // Phase 5: Security (skipped in dry-run)
+  // Phase 5: Hooks selection
+  const hooksConfig = await hooksStep(msgs, level);
+
+  // Phase 6: Security (skipped in dry-run)
   if (!isDryRun) {
-    await securityStep(projectDir, msgs);
+    await securityStep(projectDir, msgs, hooksConfig);
   } else {
     p.log.info(msgs.dryRun.skipSecurity);
   }
 
-  // Phase 6: Project creation (skipped in dry-run)
+  // Phase 7: Project creation (skipped in dry-run)
   if (!isDryRun) {
     const { projectDir: createdDir } = await projectStep(msgs, level);
     if (createdDir) {
-      await securityStep(createdDir, msgs);
+      await securityStep(createdDir, msgs, hooksConfig);
     }
-    // Phase 7: Community + completion
+    // Phase 8: Community + completion
     await communityStep(msgs, createdDir);
   } else {
     p.log.info(msgs.dryRun.skipProject);
