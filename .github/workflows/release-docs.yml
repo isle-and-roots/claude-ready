@@ -1,0 +1,18 @@
+name: Release Docs
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  attach-pdf:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npx md-to-pdf docs/guide-ja.md
+      - run: gh release upload ${{ github.event.release.tag_name }} docs/guide-ja.pdf --clobber
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
