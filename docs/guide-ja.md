@@ -152,27 +152,27 @@ npx claude-ready
 
 ビジュアルなプログレスバーとマウス操作に対応した、最も簡単な方法です。
 
-1. [GitHub Releases](https://github.com/isle-and-roots/claude-ready/releases/latest) から `.dmg` をダウンロード
-2. `.dmg` を開き、`Claude Ready.app` を `/Applications` にドラッグ
-3. アプリを起動
+### インストール（ワンライナー）
 
-### macOS Gatekeeper について
-
-Apple Developer ID による署名がないため、初回起動時に警告が表示される場合があります。
-
-**方法 1: 右クリックで開く（推奨）**
-
-1. Finder で `Claude Ready.app` を**右クリック**
-2. 「開く」を選択
-3. 確認ダイアログで再度「開く」をクリック
-
-**方法 2: xattr コマンドで隔離フラグを解除**
+**macOS (Apple Silicon)**:
 
 ```bash
-xattr -cr "/Applications/Claude Ready.app"
+curl -fsSL https://raw.githubusercontent.com/isle-and-roots/claude-ready/main/install.sh | bash
 ```
 
-実行後、通常のダブルクリックで起動できます。
+このスクリプトが自動的にダウンロード・macOS Gatekeeper の隔離フラグ解除・インストールを行います。
+
+### 手動インストールの場合
+
+1. [GitHub Releases](https://github.com/isle-and-roots/claude-ready/releases/latest) から `.dmg` をダウンロード
+2. 以下を実行して隔離フラグを解除:
+
+```bash
+xattr -dr com.apple.quarantine ~/Downloads/"Claude.Ready_0.1.0_aarch64.dmg"
+```
+
+3. `.dmg` を開き、`Claude Ready.app` を `/Applications` にドラッグ
+4. アプリを起動
 
 ---
 
@@ -469,20 +469,19 @@ claude-ready が生成・変更するファイルの一覧です:
 
 ## Q: macOS で「"Claude Ready" は壊れているため開けません」と表示される
 
-**A**: macOS Gatekeeper によるブロックです。以下のいずれかの方法で解決できます。
+**A**: macOS Sequoia (15) 以降の Gatekeeper によるブロックです。インストールスクリプトを使うと自動解決します:
 
-**方法 1: xattr で隔離フラグを解除する（最も確実）**
+```bash
+curl -fsSL https://raw.githubusercontent.com/isle-and-roots/claude-ready/main/install.sh | bash
+```
+
+すでに手動インストール済みの場合は、以下で隔離フラグを除去してください:
 
 ```bash
 xattr -cr "/Applications/Claude Ready.app"
 ```
 
-**方法 2: 右クリック→「開く」**
-
-1. Finder で `Claude Ready.app` を右クリック
-2. 「開く」を選択 → 確認ダイアログで「開く」
-
-**原因**: Apple Developer ID による署名がないアプリを初回起動する際に発生します。上記の手順を一度実行すれば、以降は通常通り起動できます。
+**原因**: Apple Developer ID による署名がないため、ダウンロードされたファイルに `com.apple.quarantine` 属性が付与されます。上記のコマンドで除去すると以降は通常通り起動できます。
 
 ## Q: Node.js がインストールされていません
 

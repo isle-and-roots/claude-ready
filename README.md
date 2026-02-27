@@ -12,15 +12,19 @@
 
 A native GUI with visual progress bar, guided setup, and mouse-friendly interface.
 
-**[Download for macOS (.dmg)](https://github.com/isle-and-roots/claude-ready/releases/latest)** | [All platforms](https://github.com/isle-and-roots/claude-ready/releases/latest)
+**macOS (Apple Silicon)**:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/isle-and-roots/claude-ready/main/install.sh | bash
+```
+
+> **手動インストールの場合**: [Releases](https://github.com/isle-and-roots/claude-ready/releases/latest) から
+> `.dmg` をダウンロード後、以下を実行してから開いてください:
+> ```bash
+> xattr -dr com.apple.quarantine ~/Downloads/"Claude.Ready_0.1.0_aarch64.dmg"
+> ```
 
 > Windows (.exe) and Linux (.AppImage) also available on the Releases page.
-
-> **macOS の初回起動**: 「開発元を確認できません」と表示された場合は
-> 右クリック →「開く」を選択してください。または:
-> ```bash
-> xattr -cr "/Applications/Claude Ready.app"
-> ```
 
 ### Option 2: CLI
 
