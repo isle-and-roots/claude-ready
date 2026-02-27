@@ -17,6 +17,40 @@
 | Phase 5.4 | ✅ Done | MCP 推奨セットアップ |
 | Phase 5.5 | ✅ Done | Skills プリセット |
 | Phase 5.6 | ✅ Done | Windows/Linux 対応 |
+| Phase 6 | ✅ Done | GUI ネイティブビルド（Rust + Tauri） |
+| Phase 7 | ✅ Done | デスクトップ訴求 + GitHub Release |
+
+---
+
+## Phase 6: GUI ネイティブビルド
+
+> **目標**: Tauri v2 デスクトップアプリを実際にビルドし、macOS で動作する `.app` / `.dmg` を生成する。
+
+### 6.1 Rust 環境セットアップ ✅
+- [x] Rust 1.93.1 インストール済み (aarch64-apple-darwin)
+
+### 6.2 Tauri ビルド実行 ✅
+- [x] `pnpm --filter @claude-ready/gui tauri build` 成功
+
+### 6.3 成果物確認 ✅
+- [x] `Claude Ready.app` 生成済み
+- [x] `Claude Ready_0.1.0_aarch64.dmg` 生成済み
+
+---
+
+## Phase 7: デスクトップ訴求 + GitHub Release ✅
+
+### 7.1 README デスクトップ訴求 ✅
+- [x] Option 1 (Desktop App) / Option 2 (CLI) 構成に変更
+- [x] Desktop vs CLI 比較テーブル追加
+
+### 7.2 Website 更新 ✅
+- [x] ヒーローに「Download Desktop App」CTAボタン追加
+- [x] Desktop GUI フィーチャーカード追加
+- [x] CLI vs Desktop 比較テーブルセクション追加
+
+### 7.3 GitHub Release v0.1.0 ✅
+- [x] .dmg アセット添付
 
 ---
 

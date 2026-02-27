@@ -2,11 +2,42 @@
 
 > Secure Claude Code Onboarding Kit — from zero to building with AI, safely.
 
-**claude-ready** is an onboarding kit that gets you from zero to building with [Claude Code](https://docs.anthropic.com/en/docs/claude-code) in under 3 minutes. No experience required.
+**claude-ready** gets you from zero to building with [Claude Code](https://docs.anthropic.com/en/docs/claude-code) in under 3 minutes. No experience required.
+
+---
+
+## Install
+
+### Option 1: Desktop App (Recommended)
+
+A native GUI with visual progress bar, guided setup, and mouse-friendly interface.
+
+**[Download for macOS (.dmg)](https://github.com/isle-and-roots/claude-ready/releases/latest)** | [All platforms](https://github.com/isle-and-roots/claude-ready/releases/latest)
+
+> Windows (.exe) and Linux (.AppImage) also available on the Releases page.
+
+### Option 2: CLI
+
+For terminal users and automation:
 
 ```bash
 npx claude-ready
 ```
+
+---
+
+## Desktop App Features
+
+| Feature | Desktop | CLI |
+|---------|---------|-----|
+| Visual progress bar | ✓ | — |
+| Mouse-friendly guided setup | ✓ | — |
+| Step-by-step explanations | ✓ | — |
+| No terminal required | ✓ | — |
+| Scriptable / CI-friendly | — | ✓ |
+| Works offline | ✓ | ✓ |
+
+---
 
 ## Trust & Transparency
 
@@ -35,6 +66,8 @@ npx claude-ready --dry-run
 ```
 
 Preview the entire setup flow without writing any files.
+
+---
 
 ## Features
 
@@ -102,7 +135,7 @@ npx claude-ready --events     # Show upcoming events
 ## Development
 
 ```bash
-git clone https://github.com/naotoshima/claude-ready.git
+git clone https://github.com/isle-and-roots/claude-ready.git
 cd claude-ready
 pnpm install
 pnpm build
@@ -116,6 +149,7 @@ pnpm dev
 claude-ready/
 ├── packages/
 │   ├── cli/          # Main CLI (npx claude-ready)
+│   ├── gui/          # Desktop App (Tauri v2 + React)
 │   ├── shared/       # Shared logic (security, hooks, i18n)
 │   └── website/      # Landing page (Astro)
 ├── docs/

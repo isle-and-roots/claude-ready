@@ -1,6 +1,6 @@
 ---
-const title = "Claude Ready — Secure Claude Code Onboarding Kit";
-const description = "Secure Claude Code Onboarding Kit — from zero to building with AI, safely.";
+const title = "Claude Ready — Desktop App + CLI Onboarding Kit for Claude Code";
+const description = "Get from zero to building with Claude Code in under 3 minutes. Desktop app (macOS/Windows/Linux) and CLI available.";
 ---
 
 <!DOCTYPE html>
@@ -25,7 +25,8 @@ const description = "Secure Claude Code Onboarding Kit — from zero to building
     <nav>
       <span class="logo">claude-ready</span>
       <div class="nav-links">
-        <a href="https://github.com/naotoshima/claude-ready" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://github.com/isle-and-roots/claude-ready/releases/latest" target="_blank" rel="noopener" class="nav-download">Download</a>
+        <a href="https://github.com/isle-and-roots/claude-ready" target="_blank" rel="noopener">GitHub</a>
         <a href="https://www.npmjs.com/package/claude-ready" target="_blank" rel="noopener">npm</a>
       </div>
     </nav>
@@ -37,6 +38,18 @@ const description = "Secure Claude Code Onboarding Kit — from zero to building
       <div class="container">
         <h1>Claude Ready</h1>
         <p class="tagline">Secure Claude Code Onboarding Kit — from zero to building with AI, safely.</p>
+
+        <div class="hero-ctas">
+          <a href="https://github.com/isle-and-roots/claude-ready/releases/latest" class="btn-primary" target="_blank" rel="noopener">
+            &#8659; Download Desktop App
+          </a>
+          <span class="hero-platforms">macOS &bull; Windows &bull; Linux</span>
+        </div>
+
+        <div class="hero-divider">
+          <span>or use the CLI</span>
+        </div>
+
         <div class="code-block">
           <code>npx claude-ready</code>
           <button class="copy-btn" id="copy-btn" onclick="copyCommand()">Copy</button>
@@ -103,6 +116,38 @@ const description = "Secure Claude Code Onboarding Kit — from zero to building
             <h3>MCP Ready</h3>
             <p>Pre-configured Model Context Protocol server recommendations for enhanced Claude Code capabilities.</p>
           </div>
+          <div class="feature-card feature-card--highlight">
+            <div class="feature-icon">&#128187;</div>
+            <h3>Desktop App <span class="badge-new">NEW</span></h3>
+            <p>Native GUI for macOS, Windows, and Linux. Visual progress bar, mouse-friendly guided setup — no terminal required.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comparison Section -->
+    <section class="comparison">
+      <div class="container">
+        <h2>Desktop App vs CLI</h2>
+        <div class="table-wrap">
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>Desktop App <span class="badge-rec">Recommended</span></th>
+                <th>CLI</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Visual progress bar</td><td class="yes">&#10003;</td><td class="no">—</td></tr>
+              <tr><td>Mouse-friendly interface</td><td class="yes">&#10003;</td><td class="no">—</td></tr>
+              <tr><td>Step-by-step guidance</td><td class="yes">&#10003;</td><td class="no">—</td></tr>
+              <tr><td>No terminal needed</td><td class="yes">&#10003;</td><td class="no">—</td></tr>
+              <tr><td>Scriptable / CI-friendly</td><td class="no">—</td><td class="yes">&#10003;</td></tr>
+              <tr><td>Works offline</td><td class="yes">&#10003;</td><td class="yes">&#10003;</td></tr>
+              <tr><td>macOS / Windows / Linux</td><td class="yes">&#10003;</td><td class="yes">&#10003;</td></tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </section>
@@ -137,7 +182,10 @@ const description = "Secure Claude Code Onboarding Kit — from zero to building
     <div class="container">
       <p class="footer-brand">claude-ready</p>
       <div class="footer-links">
-        <a href="https://github.com/naotoshima/claude-ready" target="_blank" rel="noopener">
+        <a href="https://github.com/isle-and-roots/claude-ready/releases/latest" target="_blank" rel="noopener">
+          Download
+        </a>
+        <a href="https://github.com/isle-and-roots/claude-ready" target="_blank" rel="noopener">
           GitHub
         </a>
         <a href="https://www.npmjs.com/package/claude-ready" target="_blank" rel="noopener">
@@ -563,6 +611,162 @@ const description = "Secure Claude Code Onboarding Kit — from zero to building
 
   .copy-btn.copied {
     background: #4caf50;
+  }
+
+  /* Nav download button */
+  .nav-download {
+    background: var(--amber);
+    color: white !important;
+    padding: 0.35rem 0.9rem;
+    border-radius: 6px;
+    font-weight: 600 !important;
+    transition: background-color 0.2s !important;
+  }
+  .nav-download:hover {
+    background: var(--amber-dark);
+    color: white !important;
+  }
+
+  /* Hero CTAs */
+  .hero-ctas {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    background: var(--amber);
+    color: white;
+    text-decoration: none;
+    padding: 0.85rem 2.2rem;
+    border-radius: var(--radius);
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
+    box-shadow: 0 4px 14px rgba(217, 119, 87, 0.4);
+  }
+
+  .btn-primary:hover {
+    background: var(--amber-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(217, 119, 87, 0.5);
+  }
+
+  .hero-platforms {
+    font-size: 0.8rem;
+    color: #666;
+  }
+
+  .hero-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 1.25rem auto;
+    max-width: 320px;
+    color: #666;
+    font-size: 0.85rem;
+  }
+
+  .hero-divider::before,
+  .hero-divider::after {
+    content: '';
+    flex: 1;
+    border-top: 1px solid #333;
+  }
+
+  /* Badge */
+  .badge-new {
+    display: inline-block;
+    background: var(--amber);
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.1em 0.45em;
+    border-radius: 4px;
+    vertical-align: middle;
+    letter-spacing: 0.05em;
+    margin-left: 4px;
+  }
+
+  .badge-rec {
+    display: inline-block;
+    background: #2a7a2a;
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.1em 0.45em;
+    border-radius: 4px;
+    vertical-align: middle;
+    letter-spacing: 0.05em;
+    margin-left: 4px;
+  }
+
+  /* Highlight feature card */
+  .feature-card--highlight {
+    border-color: var(--amber);
+    box-shadow: 0 2px 12px rgba(217, 119, 87, 0.2);
+  }
+
+  /* Comparison table */
+  .comparison {
+    padding: 4rem 0;
+    background: var(--bg);
+  }
+
+  .comparison h2 {
+    text-align: center;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    margin-bottom: 2.5rem;
+    color: var(--text);
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+
+  .compare-table th,
+  .compare-table td {
+    padding: 0.75rem 1.25rem;
+    border: 1px solid var(--border);
+    text-align: center;
+  }
+
+  .compare-table th:first-child,
+  .compare-table td:first-child {
+    text-align: left;
+  }
+
+  .compare-table thead th {
+    background: var(--bg-secondary);
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .compare-table tbody tr:hover {
+    background: var(--bg-secondary);
+  }
+
+  .compare-table .yes {
+    color: #3a9a3a;
+    font-weight: 700;
+    font-size: 1rem;
+  }
+
+  .compare-table .no {
+    color: var(--text-muted);
   }
 
   /* Responsive */
