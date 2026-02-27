@@ -18,21 +18,21 @@
   "keywords": [
     "claude",
     "claude-code",
+    "ai",
     "setup",
     "cli",
-    "ai",
-    "onboarding",
+    "developer-tools",
     "anthropic"
   ],
   "license": "MIT",
   "author": "naotoshima",
   "repository": {
     "type": "git",
-    "url": "https://github.com/naotoshima/claude-ready"
+    "url": "https://github.com/isle-and-roots/claude-ready.git"
   },
-  "homepage": "https://claude-ready.dev",
+  "homepage": "https://github.com/isle-and-roots/claude-ready#readme",
   "bugs": {
-    "url": "https://github.com/naotoshima/claude-ready/issues"
+    "url": "https://github.com/isle-and-roots/claude-ready/issues"
   },
   "engines": {
     "node": ">=18"

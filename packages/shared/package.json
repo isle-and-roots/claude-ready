@@ -6,8 +6,13 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/naotoshima/claude-ready"
+    "url": "https://github.com/isle-and-roots/claude-ready.git"
   },
+  "homepage": "https://github.com/isle-and-roots/claude-ready#readme",
+  "bugs": {
+    "url": "https://github.com/isle-and-roots/claude-ready/issues"
+  },
+  "files": ["dist/*.js", "dist/*.d.ts", "README.md", "LICENSE"],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {

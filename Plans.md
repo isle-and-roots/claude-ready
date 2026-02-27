@@ -154,6 +154,6 @@
 ## Technical Debt & Quality
 
 - [ ] CLI integration test（実際の npx 実行をモック付きで E2E テスト）
-- [ ] `--dry-run` フラグ（ファイル書き込みをスキップしてフロー確認）
-- [ ] shared パッケージの 100% テストカバレッジ確認
-- [ ] TypeScript strict mode の lint エラー 0 件確認
+- [x] `--dry-run` フラグ（ファイル書き込みをスキップしてフロー確認）
+- [x] shared パッケージの 100% テストカバレッジ確認
+- [x] TypeScript strict mode の lint エラー 0 件確認
