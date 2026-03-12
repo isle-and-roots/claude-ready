@@ -10,3 +10,6 @@ coverage/
 .claude/
 docs/*.pdf
 packages/cli/*.tgz
+
+# Tauri build artifacts
+packages/gui/src-tauri/target/
